@@ -1,0 +1,331 @@
+
+获取帮助：
+	help(keyword)
+		keyword: 变量、对象、类名、函数名、方法名
+
+列表：
+	可变的：可扩展
+	线性的：有序的，可使用索引
+
+	定义：列表不能一开始就定义列表大小
+		定义空列表: list()
+			lst = list()
+			lst = []
+		定义非空列表: list(iterable)， iterable: 可迭代对象
+			lst = [2, 6, 9, 'ab']
+			lst = list(range(5))
+		
+			lst1 = [1]
+			lst1*5
+			[1, 1, 1, 1, 1]
+
+			lst2 = [11, 12, 13]
+			lst1 + lst2
+
+	索引访问：
+		index: 索引
+		list[index]
+			索引：
+				正索引：0 1 2 ...
+				负索引：.... -3 -2 -1
+			索引用不到元素时，引发异常IndexError
+
+	列表查询：
+		方法：
+			查索引：
+				index(value [,start[, stop]])：从左而右，在列表给定的范围中查询首个value对应的索引。查询不到索引返回ValueError
+					value: 
+					[,start[, stop]]：索引只能从左向右。匹配范围是start对应的元素包含，stop对应的不包含。
+						index(value)： 从左向右，从整个列表中查询首个value对应的索引。
+						index(value, 1):  从1至结尾。
+						index(value, 1, 4): 从1至4.
+						index(value, -3): 从-3至结尾。
+						index(value, -3, -1): 从-3至-1。
+
+			查某个元素的总个数：
+				count(value)
+
+				index, count方法，O(n)随着数据量增大，效率变低。
+
+		函数		
+			列表长度：
+				len()
+
+	列表修改：
+		list[index]=value
+
+		增
+			L.append(object) -> None -- append object to end
+				增加元素，返回None, 原处修改，类型是NoneType.
+				时间复杂度：O(1)
+
+			L.insert(index, object) -- insert object before index	
+				返回None, 原处修改，类型是NoneType.
+				时间复杂度：O(n)
+				开头：insert(0, object)
+				结尾：insert(-1, object)
+				超界：
+					insert(100, object)  尾部追加
+					insert(-100, object) 头部追加
+
+				注意：不要使用insert, 插队会引起后面的所有元素内存结构的变化。
+
+			+ 返回有值，不会对列表操作
+				In [94]: lst1 = [1, 3, 5]
+
+				In [95]: lst2 = [11, 12, 13, 14]
+
+				In [108]: lst1 + lst2
+				Out[108]: [1, 3, 5, 11, 12, 13, 14]
+
+			* 返回有值，不会对列表操作
+				In [108]: lst1 + lst2
+				Out[108]: [1, 3, 5, 11, 12, 13, 14]
+
+			L.extend(iterable) -> None -- extend list by appending elements from the iterable
+				返回None, 原处修改，类型是NoneType.
+				In [94]: lst1 = [1, 3, 5]
+
+				In [95]: lst2 = [11, 12, 13, 14]
+
+				In [96]: lst1.extend(lst2)
+
+				In [97]: lst1
+				Out[97]: [1, 3, 5, 11, 12, 13, 14]
+
+		删除
+
+			L.remove() 移除 从左而右第一个匹配的值	
+				In [117]: lists = [1, 2, 3, 2, 2, 5]
+
+				In [118]: lists.remove(2)
+
+				In [119]: lists
+				Out[119]: [1, 3, 2, 2, 5]
+
+		 	L.pop([index]) -> item -- remove and return item at index (default last).
+				In [122]: lists
+				Out[122]: [1, 3, 2, 2, 5]
+
+				In [123]: lists.pop()
+				Out[123]: 5
+
+				In [124]: lists
+				Out[124]: [1, 3, 2, 2]
+
+				In [125]: lists.pop(0)
+				Out[125]: 1
+
+				In [126]: lists
+				Out[126]: [3, 2, 2]
+
+			L.clear() 清空列表中的元素，引起gc，垃圾回收。
+				In [111]: lst1
+				Out[111]: [1, 3, 5]
+
+				In [112]: lst1.clear()
+
+				In [113]: lst1
+				Out[113]: []
+
+		其它操作
+			L.reverse() --> None 就地翻转
+
+		 	L.sort(key=None, reverse=False) -> None -- stable sort *IN PLACE*	
+		 		默认升序，由小至大
+		 		key=None 函数，对每个元素使用函数。混合元素。
+		 		reverse=False 反转
+
+				In [136]: lists = [3, 2, 2, 4, 'ab']
+
+				In [137]: lists.sort()
+				---------------------------------------------------------------------------
+				TypeError                                 Traceback (most recent call last)
+				<ipython-input-137-34ca249e7c9d> in <module>()
+				----> 1 lists.sort()
+
+				TypeError: '<' not supported between instances of 'str' and 'int'
+
+				In [138]: lists.sort(key=str)
+
+				In [139]: lists
+				Out[139]: [2, 2, 3, 4, 'ab']
+
+				In [140]: lists.sort(key=str, reverse=True)
+
+				In [141]: lists
+				Out[141]: ['ab', 4, 3, 2, 2]
+
+			[not] in： 成员
+				[3, 4] in [2, 3, 4]    False
+				for x in [1, 2, 3, 4]  遍历
+			
+			pass 占位语句，什么都不做
+
+
+			== 值比较
+			is 内存地址比较
+				查看内存地址：
+					id(lists)
+
+			hash() 
+				整型可哈希
+				列表不可哈希
+
+		列表复制
+			L.copy() 影子拷贝
+				1、复制后占的内存不一样。
+					In [154]: lst0 = list(range(4))
+
+					In [155]: lst0
+					Out[155]: [0, 1, 2, 3]
+
+					In [156]: lst5 = lst0.copy()
+
+					In [157]: lst0 == lst5
+					Out[157]: True
+
+					In [158]: lst0 is lst5
+					Out[158]: False
+
+					In [159]: id(lst0)
+					Out[159]: 63432664
+
+					In [160]: id(lst5)
+					Out[160]: 73002200
+
+				2、如果元素不是数值和字符时，是一个对象，拷贝的是“对象的地址”，修改拷贝后的影子中的对象，也会修改原位置的对象。
+					In [194]: b = [1, [2, 3, 4], 5]
+
+					In [195]: a = b.copy() # 此处用a = b效果相同。
+
+					In [196]: a
+					Out[196]: [1, [2, 3, 4], 5]
+
+					In [197]: b
+					Out[197]: [1, [2, 3, 4], 5]
+
+					In [198]: a == b
+					Out[198]: True
+
+					In [199]: a[2] = 10
+
+					In [200]: a
+					Out[200]: [1, [2, 3, 4], 10]
+
+					In [201]: b
+					Out[201]: [1, [2, 3, 4], 5]
+
+					In [202]: a == b
+					Out[202]: False
+
+					In [203]: a[2] = 5
+
+					In [204]: a
+					Out[204]: [1, [2, 3, 4], 5]
+
+					In [205]: b
+					Out[205]: [1, [2, 3, 4], 5]
+
+					In [206]: a[1][1] = 20
+
+					In [207]: a
+					Out[207]: [1, [2, 20, 4], 5]
+
+					In [208]: b
+					Out[208]: [1, [2, 20, 4], 5]
+
+					In [209]: a == b
+					Out[209]: True
+
+					In [210]:
+
+
+回顾
+	列表: 有序、可变
+	
+	定义方法
+		list()
+		+
+		*
+	访问：
+		list[index]
+			0 1 2 3 ...
+			.... -3 -2 -1
+
+		左：头，下界
+		右：尾，上界
+
+	查询：
+		方法：
+			index(value[, start[, stop]]) 范围内的首个匹配的索引
+			count(value) 统计值个数
+		函数：
+			len()  统计列表元素个数
+
+	修改：
+		list[index] = value
+
+		增加：
+			L.append(value) -> None
+			L.insert(index, value) -> None 超界处理：
+			L.extend(iterable) -> None
+			+ -> list 列表连接
+			* -> list 重复操作
+
+			返回None: 原处修改
+			返回list: 原处不修改
+
+		删除
+			L.remove(value) -> None 
+			
+			L.pop() -> item
+			L.pop(index) -> item
+
+			L.clear() 引起gc
+
+		列表其它操作
+			L.reversed() -> None 反转
+			L.sort(key=func, reverse=False) -> None 排序。(高效)
+				key的函数，对每个元素执行函数
+			in 成员，前面是否是后面列表中的成员。(效率低)
+				for i in [2, 3, 4]   
+				[3, 4] in [1, 2, [3, 4]] 前面是后面的成员
+
+			iterable: 可迭代对象，可以数的清楚的。并非是有序的
+
+	复制：
+		影子拷贝, 也叫浅拷贝: 引用类型, 只复制引用地址, 两个引用地址指向相同位置.
+			list1 = list2
+
+			L.copy() -> list 遇到引用类型，只是复制一个引用。
+				list1 = list2.copy()
+				注意：拷贝一个列表或对象时(非简单类型时)，拷贝的是一个地址(地址会指向对象)。
+					例如：[1, [2, 3, 4], 5] 拷贝时，[2, 3, 4]只会拷贝对象的地址。1，5拷贝本身。
+
+		深拷贝: 引用类型, 会单独拷贝出来, 引用地址指向另一个位置.
+			copy模块提供了一个deepcopy
+				from copy import deepcopy
+				list0 = [1, [2, 3, 4], 5]
+				list1 = deepcopy(list0)
+				list1[1][1] = 20
+				list1 == list0
+
+		==  内容相等为True.
+		is  id(list)的值相等为True.
+
+
+	结合列表: 随机数: 自己常用的叫"伪随机数"
+		random模块
+			import random
+
+			随机整数:
+				方法:
+					randint(a, b) 返回[a,b]之间的整数
+					choice(seq) 从非空序列(目前所学只有列表), 如果为空时,返回IndexError
+					randrange(start, stop[, step]) [start, stop]取随机整数
+					shuffle(list) -> None 打乱列表元素
+
+					
+					
+

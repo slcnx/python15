@@ -1,0 +1,87 @@
+数值
+	int, float, complex, bool
+
+序列对象
+	str
+	list
+	tuple
+
+键值对
+	集set
+	字典dict
+
+
+数值型
+	int: 长整型，没有大小限制，受限于一个进程使用的内存区域中可使用的大小。
+	float: 小数点可变。只有双精度。没有单精度。并不能完全精确的表示一个小数。只能近似表达。
+	complex: 复数；实数和虚数部分。常用于科学计算
+	bool: 布尔型，是int的子类(可以做整型计算)，仅有2个实例True/False
+		1+True 
+		2
+
+	数值型内计算，表亲计算, 隐式转换: 向高精度转换。
+		1+True+0.5
+		2.5
+
+	类型转换(built-in)
+		int(x)   返回整数
+			3//2 = 1
+			3/2  = 1.5
+			int(3/2) = 1 
+	 	float(x) 返回浮点数
+		complex(x), complex(x, y)
+		bool(x)  返回布尔值
+
+	数字处理：
+		内置：
+			int()
+			min() 接列表，求列表中最小的一个元素
+			max() 接列表，求列表中最大的一个元素
+			sum() 接列表，求列表所有元素和
+			pow(5,2) 相当于5**2
+			求二进制：bin()，返回字符
+			求十六制：hex()，返回字符
+			求八进制：oct()，返回字符
+
+		import math
+			四舍6入5取偶：round()
+			地板：		math.floor(1.2) 1 math.floor(2.5) 2
+			天花板：	math.ceil(3.2) 4 math.ceil(3.6) 4
+			开方：    math.sqrt()  
+			π：		  math.pi
+			自然常数：math.e
+
+	类型判断：
+		type(x)
+		type(type(x)) 返回结果是什么类型
+		类型比较：
+			type(x) == str
+			type(x) == int
+
+			isinstance(x, int)       x是否属于int类
+			isinstance(x, str)       x是否属于str类
+			isinstance(x, (int, str, bool, None)) x是否属于这两个类型中的一个。
+
+		type(1+True)	
+		类：抽象概念
+		实例：赋予类特点，实实存在的实体。
+
+
+序列对象:
+	list: 一个"有序"的 由若干个"元素" 整齐的排列.
+		元素: item, 列表内的个体, 可以任意对象(数字、字符、对象、列表、...)
+		索引： 从0起始，用于标识元素。
+		[]: 符号，表示一个列表。
+		线性的数据结构
+		列表是可变的
+
+		list, 链表, queue, stack的差异
+			链表：有序，前一个结束指向下一个起始。不能使用索引
+			queue: 队列，有序，可能先进先出，可能后进先出。
+			stack：栈，后进先出。
+
+	list()
+	list(iterable)
+		iterable: 可迭代对象 range()
+
+

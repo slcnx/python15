@@ -1,0 +1,47 @@
+比较效率
+datetime模块
+	from datetime import datetime
+	start = datetime.now()
+	(datetime.now() - start).total_seconds()
+
+
+from datetime import datetime
+p_lists = []
+start = datetime.now()
+
+for i in range(2,100000):
+    for j in p_lists:
+        if i%j == 0:
+            break
+    else:
+        p_lists.append(i)
+
+print(p_lists)
+print('times: ', (datetime.now() - start).total_seconds())
+
+
+from datetime import datetime
+p_lists = []
+start = datetime.now()
+
+for i in range(2,100000):
+    flag = True
+    for j in p_lists:
+        if i%j == 0:
+            flag = False
+            break
+        
+        if j >= (i**0.5)+1:
+            break
+    if flag:
+        p_lists.append(i)
+
+print(p_lists)
+print('times: ', (datetime.now() - start).total_seconds())
+
+	+++++++++++++
+	(i**0.5)+1
+	import math
+	math.ceil(math.sqrt(i))
+
+	

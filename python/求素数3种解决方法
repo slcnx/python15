@@ -1,0 +1,117 @@
+1、不能被1和本身整除的数
+	for i in range(2, 10):
+	    flag = True
+	    for j in range(2, i):
+	        if i%j == 0:
+	            flag = False
+	            break
+
+	    if flag == True:
+	        print(i)
+
+
+	for i in range(2, 10):
+	    for j in range(2, i):
+	        if i%j == 0:
+	            break
+	    else:
+	        print(i)
+	    
+2、不能被1和本身整除的数，对2至本身-1的数，
+	取半。（结果有4）
+		for i in range(2, 10):
+		    for j in range(2, i):
+		    	if j < i/2:
+			        if i%j == 0:
+			            break
+		    else:
+		        print(i)
+
+		for i in range(2, 10):
+		    for j in range(2, i/2):
+		        if i%j == 0:
+		            break
+		    else:
+		        print(i)
+	
+	开方:（结果有4）
+		for i in range(2, 100):
+		    for j in range(2, i**2+1):
+	            if i%j == 0:
+	                break
+		    else:
+		        print(i)
+
+	开方引入math模块：（结果有4）
+		math.sqrt(x) 对一个数开平方
+		math.ceil(x) 对一个浮点数，向上取整
+
+		import math
+		for i in range(2, 100):
+		    for j in range(2, math.ceil(math.sqrt(i))):
+		        if i%j == 0:
+		            break
+		    else:
+		        print(i)      
+
+3、能整除素数的数是合数
+	1) flag替换for else:
+	prime_lists = []
+
+	for i in range(2, 10):
+	    flag = True
+	    for prime_list in prime_lists:
+	        if i%prime_list == 0:
+	            flag = False
+	            break
+	    if flag:
+	        prime_lists.append(i)
+
+	print(prime_lists)
+
+	2) for else:
+		prime_lists = []
+
+		for i in range(2, 10):
+		    for prime_list in prime_lists:
+		        if i%prime_list == 0:
+		            break
+		    else:
+		        prime_lists.append(i)
+
+		print(prime_lists)
+
+	3) flag，且素数小于被求的数的开平方+1 
+		prime_lists = []
+
+		for i in range(2, 10):
+		    flag = True
+		    for prime_list in prime_lists:
+		        if i%prime_list == 0:
+		            flag = False
+		            break
+		        if prime_list > i**0.5+1:
+		            break
+		            
+		    if flag:
+		        prime_lists.append(i)
+
+		print(prime_lists)
+
+		3.1：
+			import math
+			prime_lists = []
+
+			for i in range(2, 10):
+			    flag = True
+			    for prime_list in prime_lists:
+			        if i%prime_list == 0:
+			            flag = False
+			            break
+			        if prime_list > math.ceil(math.sqrt(i)):
+			            break
+			            
+			    if flag:
+			        prime_lists.append(i)
+
+			print(prime_lists)

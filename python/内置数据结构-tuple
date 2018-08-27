@@ -1,0 +1,137 @@
+
+线性结构：列表，元组
+	列表：可变。[]
+	元组：元素不可变，但其属性可变。()
+
+非线性结构：字典
+
+定义
+	tuple() #工厂方法
+	tuple(iterable)
+
+	t = tuple()
+	t = tuple(range(1,7,2))
+	t = (1,) # 一个元素的定义
+		type((1,)) tuple
+		type((1)) int
+
+	t = (1,)*5
+	t = (1,2,3)*6
+
+访问
+	正负索引
+	tuple[index]
+
+	t[1]
+	t[-2]
+
+查询
+	index(value, [start, [stop]])
+	count(value)
+	len(tuple)
+
+嵌套类型可以变元素属性，元素地址没有变。
+	>>> t1 = [1, [2, 3], 4]
+	>>> t1[1][0] = 10
+	>>> t1
+	[1, [10, 3], 4]
+
+命名元组
+	namedtuple(typename, iterable) 返回一个类,类可接受的参数是iterable每个元素。
+
+	from collections import namedtuple
+	Point = namedtuple('P', 'x,y')
+	p1 = Point(4,5)
+	p1.x
+	p1.y
+	p1.x + p1.y
+
+
+练习
+	依次接收用户输入的3个数，排序后打印
+		1、转换int后，判断大小排序。
+			a = int(input('input a: '))
+			b = int(input('input b: '))
+			c = int(input('input c: '))
+
+			if a >= b and a >=c:
+			    if b > c:
+			        print(a, b, c)
+			    else:
+			        print(a, c, b)
+			elif b >= a and b >= c:
+			    if a > c:
+			        print(b, a, c)
+			    else:
+			        print(b, c, a)
+			elif c >=b and c >= a:
+			    if b > a:
+			        print(c, b, a)
+			    else:
+			        print(c, a, b)
+
+		2、使用max函数
+			a = int(input('input a: '))
+			b = int(input('input b: '))
+			c = int(input('input c: '))
+
+			lists = [a, b, c]
+			while lists:
+			    element = max(lists)
+			    print(element)
+			    lists.remove(element)
+
+		3、使用列表的sort方法
+			a = int(input('input a: '))
+			b = int(input('input b: '))
+			c = int(input('input c: '))
+
+			lists = [a, b, c]
+			lists.sort(reverse=True)
+
+			for list in lists:
+			    print(list)
+
+			a = int(input('input a: '))
+			b = int(input('input b: '))
+			c = int(input('input c: '))
+
+			lists = [a, b, c]
+			sorted(lists, reverse=True)
+
+		4、冒泡算法：时间复杂度 O(n**2)
+			import random
+			lists = list(range(1,10,1))
+			random.shuffle(lists)
+			print(lists)
+
+			lists = [1, 2, 4, 3, 7, 6, 5, 9, 8]
+			for i in range(1,len(lists)+1): #比较趟数
+			    for j in range(len(lists)-i): #每趟索引
+			        if lists[j] > lists[j+1]:
+			            tmp = lists[j+1]
+			            lists[j+1] = lists[j]
+			            lists[j] = tmp
+			print(lists)
+
+			优化：已经排序正常了，不再进行排序。
+				lists = [1, 2, 3, 4, 5]
+				count = 0
+				swap_count = 0
+
+				for i in range(1,len(lists)+1):
+				    flag = True
+				    count += 1
+				    for j in range(len(lists)-i):
+				        if lists[j] > lists[j+1]:
+				            flag = False
+				            tmp = lists[j+1]
+				            lists[j+1] = lists[j]
+				            lists[j] = tmp
+				            swap_count += 1
+
+				    if flag:
+				        break
+
+				print(lists, count, swap_count)
+
