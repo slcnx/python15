@@ -82,9 +82,12 @@ gcc make patch gdbm-devel openssl-devel sqlite-devel readline-devel zlib-devel b
 				改进方案：将python压缩包(.tar.xz, .tgz, .tar.gz)放在 ~/.pyenv/cache/目录中, 在安装
 
 			列出当前python版本
-				python version
+				pyenv version
 			列出所有python版本
-				python versions
+				pyenv versions
+
+			升级
+				pyenv update
 
 			global <version>  python版本与全局相关
 				~]$ pyenv global 3.6.5 #软件依赖的版本是2.6时, 此时环境都改变了.
@@ -142,7 +145,7 @@ gcc make patch gdbm-devel openssl-devel sqlite-devel readline-devel zlib-devel b
 		(lc365) [python@localhost python15]$
 
 		注意：虚拟环境使用时，前面多东西。
-
+			windows虚拟环境用pycharm.
 
 	~/.pyenv/versions #python所有版本目录
 	~/.pyenv/versions/<version>/envs/ #python基本版本虚拟环境目录
@@ -157,6 +160,7 @@ pip配置
 			install -d ~/.pip
 			vim ~/.pip/pip.conf
 		windows
+			创建pip目录
 			在administrator目录中创建pip.ini文件
 
 		-------------------
@@ -183,9 +187,9 @@ trusted-host=mirrors.aliyun.com
 			可验证包安装位置是在虚拟环境目录中
 				ls ~/.pyenv/versions/3.6.5/envs/lc365/lib/python3.6/site-packages/
 				ls ~/.pyenv/versions/3.6.5/lib/python3.6/site-packages/
-		导出包列表
+		导出包列表: 开发环境中导出
 			pip freeze > /path/to/somefile
-		安装列表中的包
+		安装列表中的包: 生产环境中导入
 			pip install -r /path/from/somefile
 
 		(lc365) [python@localhost python15]$ pip freeze > /tmp/packages.txt
@@ -200,6 +204,7 @@ trusted-host=mirrors.aliyun.com
 		(lc353) [python@localhost web]$ pip install -r /tmp/packages.txt
 
 jupyter使用
+	增强的python shell, 自动补全、自动缩进、支持shell、增加函数(%%time)
 	$ jupyter notebook help
 	jupyter notebook password # enter a password to protect the server
 	jupyter [--ip=<The IP address the notebook server will listen on>] [--no-browser] [--notebook-dir=<The directory to use for notebooks>]
@@ -209,7 +214,12 @@ jupyter使用
 		http://<ip>:8888
 		此时笔记所在目录为--notebook-dir=指定的目录,或运行命令所在目录
 
-	运行命令: Shift + Enter, Ctrl + Enter
+	编辑框中
+		运行命令: Ctrl + Enter
+		运行命令，添加cell: Shift + Enter
+	选中编辑框：
+		删除：dd
+		切换为markdown格式：m
 
 
 
