@@ -1,0 +1,130 @@
+预习
+整理笔记，知识整理
+作业
+	练习
+	基础知识习题
+	进阶知识习题
+	项目实战编码（实战部分只提供基本实现）
+提问
+	先保留问题，记录下来
+
+推荐书籍
+	python cookbook
+	learn python the hard way
+	google's python class
+	简明python教程
+
+
+
+python文化
+	1989. 创立
+	1991发表Python, 他是喜剧Monty Python's Flying Circus的忠实粉丝。
+
+	python哲学
+		>>> import this
+		The Zen of Python, by Tim Peters
+
+		优美
+		简洁
+		复杂胜于凌乱
+		扁平胜于嵌套
+		间隔胜于紧凑
+		可读性
+		精准捕获异常
+		存在多种可能，不要深度去猜测
+		构思
+
+版本
+	2.7. 倒计时 https://pythonclock.org/
+	3.6(2008-2015)
+
+	2.x和3.x区别
+		语句函数化: print
+		自然除：/
+		input
+		round函数: 距离近的偶数
+		字符串统一Unicode	
+		异常捕获、抛出的语法改变
+
+开发环境 --- pyenv
+	解决多python版本、python模块隔离(虚拟环境)
+
+	官网：https://github.com/pyenv/pyenv
+
+
+	最小化系统：ssh, 停止iptables, yum源, vim
+		关闭selinux, 安装chrony, 别名(进入网络接口配置目录)
+
+	安装方法：
+		1）安装依赖
+			yum -y install vim git \
+gcc make patch gdbm-devel openssl-devel sqlite-devel readline-devel zlib-devel bzip2-devel readline-static  openssl-static
+		2）创建一个用户
+			useradd python; echo 'magedu' | passwd --stdin python; su - python
+		3）使用
+			Install:
+				$ curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
+			Update:
+				$ pyenv update
+			Uninstall: pyenv is installed within $PYENV_ROOT (default: ~/.pyenv). To uninstall, just remove it:
+				$ rm -fr ~/.pyenv
+				and remove these three lines from .bashrc:
+
+				export PATH="~/.pyenv/bin:$PATH"
+				eval "$(pyenv init -)"
+				eval "$(pyenv virtualenv-init -)"
+		4) 常见命令
+			列出可安装软件列表
+				~]$ pyenv install -l
+			安装软件
+				pyenv install <version>
+				~]$ pyenv install 3.7.0
+				改进方案：将python压缩包(.tar.xz, .tgz, .tar.gz)放在 ~/.pyenv/cache/目录中, 在安装
+
+			列出当前python版本
+				python version
+			列出所有python版本
+				python versions
+
+			global <version>  python版本与全局相关
+				~]$ pyenv global 3.6.5 #软件依赖的版本是2.6时, 此时环境都改变了.
+				~]$ pyenv global system #切回版本
+			shell  <version>  python版本与当前会话有关, 退出会话失效。
+				~]$ pyenv shell 3.6.5
+			
+			* local  <version>  python版本与当前目录有关，退出目录版本改变。
+				~]$ mkdir -pv project/songliangcheng/python15
+				~]$ cd project/songliangcheng/python15
+				$ pyenv local 3.6.5
+				$ pyenv version #版本与目录相关
+				3.6.5 (set by /home/python/project/songliangcheng/python15/.python-version)
+				$ cd .. #退出目录版本改变
+				$ pyenv version
+				system (set by /home/python/.pyenv/version)
+				$ cd -
+				$ mkdir test
+				$ cd test # 子目录版本不变
+				$ pyenv version
+				3.6.5 (set by /home/python/project/songliangcheng/python15/.python-version)
+
+		解决以上同一个python版本中安装不同版本的包
+
+	5) 虚拟环境virtualenv	
+		$ pyenv virtualenv 3.6.5 lc365
+			Requirement already satisfied: setuptools in /home/python/.pyenv/versions/3.6.5/envs/lc365/lib/python3.6/site-packages
+			Requirement already satisfied: pip in /home/python/.pyenv/versions/3.6.5/envs/lc365/lib/python3.6/site-packages
+		$ pyenv versions
+		  system
+		* 3.6.5 (set by /home/python/project/songliangcheng/python15/.python-version)
+		  3.6.5/envs/lc365
+		  lc365
+
+		$ cd ~/project/songliangcheng/python15/
+		$ pyenv local lc365
+		(lc365) [python@localhost python15]$
+
+
+	~/.pyenv/versions #python所有版本目录
+	~/.pyenv/versions/<version>/envs/ #python基本版本虚拟环境目录
+	*/lib/python3.6/site-packages     #python软件包安装目录
+	
