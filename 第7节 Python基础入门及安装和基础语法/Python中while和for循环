@@ -1,0 +1,187 @@
+回顾
+	cpu
+	寄存器
+	多级缓存
+	内存
+	磁盘
+
+	io
+		键盘、鼠标、显示器、U盘、网络
+
+	语言
+		机器语言
+		汇编语言
+		高级语言
+			系统
+			应用
+
+	编译
+	解释
+
+	结构化、面向对象、函数式
+
+	程序
+		算法：处理数据方式
+		数据结构：数据组织格式
+
+	动态：不用申明类型，定义即申明，重新定义即修改类型
+	静态：申明类型，不能修改类型
+
+	强：不同类型不能运算。== , != 例外
+	弱：不同类型可以运算，可以隐式转换：javascript: console.log(1+'a')
+
+	数值
+	字符
+
+	\
+		转义
+		续行
+
+	标识
+		[^0-9][a-z0-9_]
+	
+	常量：没有常量，只有字面常量 
+
+	变量：可以改变的量
+
+	python是动态类型 强类型语言
+
+	运算
+		算数 + - * / % **
+		位   & | ~ ^ << >> 
+			0b bin()求十进制的二进制
+			0o 八进制
+			0x 十六进制
+
+			计算机存储的二进制数的补码
+				二进制的补码：
+					正数：本身
+					负数：符号位不变，其它位取反+1
+
+				^ 二进制数取反，如果返回补码是负数结果，所以需要将补码转换成负数(-1，除符号位取反)
+
+		比较
+			==
+			!=
+			>
+			<
+			>=
+			<=
+		
+		逻辑
+			and or not
+
+		赋值
+			=
+			连等 x = y = z = 10
+
+		成员 
+			in, not in
+			是否在集合中
+
+		身份
+			is, not is
+
+		
+		运算优先级
+			记不住，表达式直接加()
+
+	内存：
+		所有对象有引用计数
+			0，可回收
+			计数增加
+			计数减少
+
+
+	程序控制
+		顺序
+		选择
+		循环
+
+	真值表
+		数值：非0为真
+		字符：非空为真
+		集合：非空为真。[] () {} 假
+
+	缩进：4空格 
+		if conditon:
+			if-true
+
+		if condition:
+			if-true
+		else:
+			if-false
+
+		if condition:
+			if-true
+		elif condition:
+			if-true
+		...
+		else:
+			if-all-false
+
+
+
+循环 --- while语句
+	
+	while condition:
+		while-true
+
+	例如：
+		flag = 10
+
+		while flag:
+			print(flag)
+			flag -= 1
+
+	死循环
+		while True:
+
+	无用语句：
+		while False:
+
+循环 --- for语句
+
+	for element in iterable:
+		for-body
+
+	可迭代对象中有元素可以迭代，进入循环体，执行循环体。
+		从集合中拿元素，集合可能有序，可能没有顺序。
+
+
+range函数
+	help(function)
+
+	前包后不包 (start, stop) --> [start, stop)
+
+	range(start, stop, step)
+		a省略,表示从0
+		[start, stop)
+		start: 开始的数[
+		stop: 结束的数)
+		step: 步长,默认1.
+
+	(10) 0..9
+	(5,10) 5..9
+	(10,1,-1) 10..2
+
+	循环 continue语句
+		提前结束本轮循环, 进入下一轮循环.
+
+		求10以内 偶数
+			for i in range(10):
+				if not i%2:
+					print(i)
+
+			for i in range(10):
+				if i%2:
+					continue
+					print(i)
+				else:
+					print(i)
+
+
+
+
+
+
