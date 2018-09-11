@@ -185,7 +185,7 @@ trusted-host=mirrors.aliyun.com
 			可验证镜像配置成功与否
 				Downloading https://mirrors.aliyun.com/pypi/packages/...
 			可验证包安装位置是在虚拟环境目录中
-				ls ~/.pyenv/versions/3.6.5/envs/lc365/lib/python3.6/site-packages/
+				ls ~/.pyenv/versions/3.6.5/envs/lc365/lib/python3.6/site-packages/ 或 ls ~/.pyenv/versions/lc365/lib/python3.6/site-packages/
 				ls ~/.pyenv/versions/3.6.5/lib/python3.6/site-packages/
 		导出包列表: 开发环境中导出
 			pip freeze > /path/to/somefile
@@ -221,7 +221,26 @@ jupyter使用
 		删除：dd
 		切换为markdown格式：m
 
+		[python@localhost ~]$ cat /etc/systemd/system/jupyter-notebook.service
+		[Unit]
+		Description=Jupyter notebook
+		After=network.target
 
+		[Service]
+		Type=simple
+		ExecStart=/home/python/.pyenv/versions/lc353/bin/jupyter notebook --ip=0.0.0.0 --no-browser --notebook-dir=/home/python/notebook
+		User=python
+		Group=python
+		Restart=1
+		TimeoutSec=10
+		RestartSec=2
+
+		[Install]
+		WantedBy=multi-user.target
+
+		~]$ sudo systemctl daemon-reload
+		~]$ sudo systemctl status jupyter-notebook
+		
 
 
 

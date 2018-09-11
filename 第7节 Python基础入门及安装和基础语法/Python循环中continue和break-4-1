@@ -1,0 +1,83 @@
+循环break语句
+	终止当前循环
+	举例: 计算1000以内的被7整除的前20个数(for循环)
+
+		count = 1
+		for i in range(0,1000,7):
+			print(i)
+			count += 1
+			if count >= 20:
+				break
+
+	while循环
+		count = 1
+		i = 0
+		while True:
+			print(i)
+			count += 1
+			if count >= 20:
+				break
+			i += 7
+
+
+	给定一个不超过5位的正整数，顺打和反打, 并求数多少位。
+		锻炼逻辑，让你怎么看懂它在干什么事!
+
+		反着打数
+			countnum = 0
+			while True:
+				print(num%10)
+				countnum += 1
+				num = num//10
+				if num == 0:
+					break
+
+		顺着打数
+			val = input('>>> ')
+			val = int(val)
+			print(val)
+			if val >= 1000:
+				if val >= 10000:
+					num = 5
+				else:
+					num = 4
+			else:
+				if val >= 100:
+					num = 3
+				elif val >= 10:
+					num = 2
+				else:
+					num = 1
+			print(num)
+
+			val = 82
+			num = 2
+			pre = 0
+			for i in range(num, 0 ,-1):
+				cur = val//(10**(i-1))
+				print(cur - pre*10)
+				pre = cur
+
+			有多种可能时，大于最大的可能，小于最小的可能。
+
+		字符串
+			val = 82
+			val = str(val)
+			print(len(val))
+			for i in val:
+			    print(i)
+
+
+循环else子句
+	while condition:
+		block
+	else: #while所有条件完了就执行
+		block
+
+	for element in iterable:
+		block
+	else:#所有迭代完成就执行
+		block
+
+	循环正常执行结束，就执行else子句；
+	如果使用break或被异常打断 循环，else子句不会执行。
