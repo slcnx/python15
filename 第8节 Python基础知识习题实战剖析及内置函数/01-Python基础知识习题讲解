@@ -1,0 +1,38 @@
+
+	获取帮助：help(), 
+
+		>>> help(print)
+			print(value, ..., sep=' ', end='\n', file=sys.stdout, flush=False)
+
+				将值打印到流或默认打印至标准输出.
+
+				Optional keyword arguments:
+					file:  文件对象(流); 默认输出至 sys.stdout.
+					sep:   值与值之间插入的字符串, 默认是空格.
+					end:   在最后一个值之后追加的字符串, 默认是新行.
+					flush: 是否强制flush流.
+
+
+			value常用形式
+				print(j, "X", i, "=", j*i)
+				print(str(j)+"X"+str(i)+"="+str(j*i))
+
+				格式:
+					格式字符串: 要求用一个{}代表一个占位符. {}中是数字,表示参数位置的索引. 0对应第一个参数, 1对应第二个参数, ...。一一对应。
+						"{} {} {}".format(a, b, c)
+						"{0} {1} {2}".format(a, b, c)
+						"{var2} {var2} {var3}".format(var3=a, var2=b, var1=c)
+
+						{:operate#}
+							: {}中以冒号分隔，后面是要求; 
+							operate < 左对齐，> 右对齐;
+							# 打印字符宽度;
+							
+					C风
+						"%d %d %d"%(a, b, c) 要求后面必须是整型数字
+						"%s %s %s"%(a, b, c)
+
+
+	三目运算
+		真值 if 条件 else 假值
+
