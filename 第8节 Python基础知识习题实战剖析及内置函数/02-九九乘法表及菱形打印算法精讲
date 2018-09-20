@@ -1,0 +1,10 @@
+	打印菱形：找数学公式
+
+	计算效率
+		1）jupyter notebook在行首：%%timeit
+		2）
+			import datetime
+			start = datetime.datetime.now()
+			delta   = datetime.datetime.now() - start
+			print(delta)
+			
