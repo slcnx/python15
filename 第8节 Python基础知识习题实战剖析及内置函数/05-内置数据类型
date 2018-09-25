@@ -86,7 +86,7 @@ queue
 
 				lists = [i for i in range(5)]
 
-			索引访问：
+			索引访问元素：
 				约定索引：
 					左(下)边界 <---------------> 右(上)边界
 					0 1 2 ........................ -3 -2 -1
@@ -99,7 +99,7 @@ queue
 					序号：1, 2, 3, 4, 5 ...
 					索引：0, 1, 2, 3, 4 ...
 
-			列表操作：
+			一、列表操作：
 				查询
 					单个元素的索引 index()
 						index(value, [start[, stop]])
@@ -151,11 +151,64 @@ queue
 					单个元素修改
 						list[index]=value
 
-					>>> lst = [1, 2, 3, 2, 2, 5, 2]	
-					#最后一个元素
-					>>> lst[len(lst)-1] = 6
-					>>> lst
-					[1, 2, 3, 2, 2, 5, 6]
+						>>> lst = [1, 2, 3, 2, 2, 5, 2]	
+						#最后一个元素
+						>>> lst[len(lst)-1] = 6
+						>>> lst
+						[1, 2, 3, 2, 2, 5, 6]
+
+					多个元素修改
+						reversed() -> None
+
+							列表的元素反转，返回None。除了中间那个不动(奇数个)，都要反转。
+							就地修改
+
+							>>> lst1
+							[12, 13, 7, 1, 3, 2, 2, 5, 6, 10]
+							>>> lst1.reverse()
+							>>> lst1
+							[10, 6, 5, 2, 2, 3, 1, 7, 13, 12]
+
+						sort(key=None, reverse=False) -> None
+							key=None, reverse=False： 表示缺省值，默认值。不用给：默认升序，由小到大。
+							列表的元素排序
+							就地修改
+							>>> lst1
+							[10, 6, 5, 2, 2, 3, 1, 7, 13, 12]
+							>>> lst1.sort()
+							>>> lst1
+							[1, 2, 2, 3, 5, 6, 7, 10, 12, 13]
+
+							注意：对存在默认值且为第一个的函数，进行传参时，为后面的参数赋值时，应该写上参数名等于值。否则会将实参与行参一一对应，这样就给行参第一个赋值了。
+							>>> lst1.sort(True)
+							Traceback (most recent call last):
+							  File "<stdin>", line 1, in <module>
+							TypeError: must use keyword argument for key function
+
+							>>> lst1.sort(reverse=True)
+							>>> lst1
+							[13, 12, 10, 7, 6, 5, 3, 2, 2, 1]
+
+							注意：少用排序，需要输出有排序的序列的时候，在用sort.
+
+							注意：相同类型排序没有问题，不同类型排序。使用函数: lst.sort(key=function)
+							>>> lst1
+							[13, 12, 10, 7, 6, 5, 3, 2, 2, 1]
+							>>> lst1.append('a')
+							>>> lst1
+							[13, 12, 10, 7, 6, 5, 3, 2, 2, 1, 'a']
+							>>> lst1.sort()
+							Traceback (most recent call last):
+							  File "<stdin>", line 1, in <module>
+							TypeError: '<' not supported between instances of 'str' and 'int'
+							#混合排序
+							>>> lst1.sort(key=str) #使用str函数。相当于str()函数操作每个元素的结果进行排序。函数里面的参数是函数，是高阶函数。
+							>>> lst1
+							[1, 10, 12, 13, 2, 2, 3, 5, 6, 7, 'a']
+
+							>>> lst1.sort(key=str, reverse=True) #看出降序效果。
+							>>> lst1
+							['a', 7, 6, 5, 3, 2, 2, 13, 12, 10, 1]
 
 				增加、插入元素：
 					注意：列表长度改变
@@ -228,18 +281,24 @@ queue
 					clear() -> None
 						
 						清空所有元素，剩下空列表。
-
+						注意：很多对象释放(大规模的数据集清除后或做过多的clear)，会引起垃圾回收。这个时候你正在忙，它在垃圾回收。你的内存会被它调整一次。这个时候就带来效率问题。
+						可能需要new一个。
 						>>> lst
 						[7, 1, 2, 3, 2, 2, 5, 6, 10, 7, 11, 12, 13]
 						>>> lst.clear()
 						>>> lst # 注意，剩下空列表
 						[]
 
+						扩展：
+							clear() 和 = []区别
+								list.clear() 内存结构保留，只清元素。
+								list = []   内存结构清除。
+
 					remove(value) -> None
 
 						从左而右查找第一个匹配的value值，移除之。
 						就地修改
-						效率：中间操作会引起位置挪动，效率变低。	
+						效率：中间操作会引起位置向前挪动，效率变低。	
 						
 						>>> lst1
 						[11, 12, 13, 7, 1, 2, 3, 2, 2, 5, 6, 10, 7]
@@ -251,7 +310,6 @@ queue
 						注意：返回不是None，也是就地修改。
 						pop() 移除最后一个元素，返回此元素。 O(1)
 						pop(index) 移除由index指定的元素，返回此元素。
-
 
 							>>> lst1
 							[11, 12, 13, 7, 1, 3, 2, 2, 5, 6, 10, 7]
@@ -270,6 +328,207 @@ queue
 							[12, 13, 7, 1, 3, 2, 2, 5, 6, 10]
 
 
+				成员运算符: 是否是集合内的整个元素，返回布尔型。
+					30 in [[30,20]] False
+					[3, 4] in [1, 2, [3, 4]] True
+					for x in [1, 2, 3, 4] 循环
+
+					布尔型可以放在if语句中
+						if 30 not in [[30, 20]]:
+							pass #pass是占位语句，什么都不做。不pass，语法不对。怎么处理不知道。回过头来修改。
+
+			二、列表复制
+
+				小知识：
+					== 值比较
+					is 比内存地址，id()值比较。
+
+					>>> lst0 = list(range(4))
+					>>> id(lst0) #id() 获取标识，内存地址。
+					45913072
+					>>> hash(lst0) #列表不可hash
+					Traceback (most recent call last):
+					  File "<stdin>", line 1, in <module>
+					TypeError: unhashable type: 'list'
+					>>> hash(id(lst0)) #整型hash是本身
+					45913072
+					>>> lst1 = list(range(4))
+					>>> id(lst1)
+					45936688
+					>>> lst0 == lst1  #== 比较内容
+					True	
+					>>> lst0 is lst1  #is 比较内容和内存位置. not is
+					False
+					
+				注意：= 赋值，lst1指向的内存空间和lst0内存空间相同。不会新开辟内存空间。内存地址也相同。
+					变量名：对内存中一段空间起名。 
+					>>> lst1 = lst0
+					>>> id(lst1) #此处内存地址是上面lst0内存地址，相同的。
+					45913072
+
+					lst1[2] = 10
+					>>> lst1
+					[0, 1, 10, 3]
+					>>> lst0 #注意，修改lst1也把lst0修改了。
+					[0, 1, 10, 3]
+
+
+				copy() -> list
+					
+					拷贝出一个新列表。
+					>>> lst0 = list(range(4))
+					>>> lst0
+					[0, 1, 2, 3]
+					>>> lst0.copy()
+					[0, 1, 2, 3]
+					>>> lst5 = lst0.copy() #浅拷贝
+					>>> lst5
+					[0, 1, 2, 3]
+					>>> lst0 == lst5
+					True
+					>>> id(lst0)
+					45827056
+					>>> id(lst5)
+					45905040
+					>>> lst5 is lst0
+					False
+
+					注意：列表元素是复杂类型(列表、对象...)，拷贝的是复杂类型的地址。
+					>>> lst0 = [1, [2, 3, 4], 5]
+					>>> lst5 = lst0.copy()
+					>>> lst0
+					[1, [2, 3, 4], 5]
+					>>> lst5
+					[1, [2, 3, 4], 5]
+					>>> lst5 == lst0
+					True
+					>>> lst5 is lst0
+					False
+
+					#对于非复杂类型单个元素拷贝的是本身。
+					>>> lst5[2] = 10
+					>>> lst5
+					[1, [2, 3, 4], 10]
+					>>> lst0
+					[1, [2, 3, 4], 5]
+					>>>
+					#对于复杂类型(列表、对象...)，拷贝的是地址
+					>>> lst5[2] = 5
+					>>> lst5
+					[1, [2, 3, 4], 5]
+					>>> lst0
+					[1, [2, 3, 4], 5]
+					
+						#一个列表复杂类型中的元素改变，另一个列表复杂类型中的元素也改变了。
+						>>> lst5[1][1] = 20
+						>>> lst5 == lst0
+						True
+						>>> lst5
+						[1, [2, 20, 4], 5]
+						>>> lst0
+						[1, [2, 20, 4], 5]
+
+
+				扩展：不仅仅是复制，追加一个复杂类型也是引用的追加
+					>>> row = []
+					>>> lists = [2]
+					>>> lists.append(row)
+					>>> lists
+					[2, []]
+					>>> row.append('abc')
+					>>> lists
+					[2, ['abc']]
+
+
+				扩展：深拷贝
+					和以上浅拷贝的区别在于：拷贝元素是复杂类型时，拷贝的是整个元素，拷贝源和拷贝出的内容复杂类型是指向不同位置。浅拷贝只拷贝引用，拷贝源和拷贝出的内容复杂类型是指向相同位置。
+					>>> import copy
+					>>> lst0 = [1, [2, 3, 4], 5]
+					>>> lst5 = copy.deepcopy(lst0) #深拷贝
+					>>> lst5[1][1] = 20
+					>>> lst5
+					[1, [2, 20, 4], 5]
+					>>> lst0
+					[1, [2, 3, 4], 5]
+					一般情况下，只用浅拷贝就可以了。
+
+				赋值和copy()区别
+					赋值：内存地址相同
+					copy() 复杂类型引用地址相同
+
+				copy() 和copy.deepcopy()区别
+					copy() 复杂类型引用地址相同
+					copy.deepcopy() 复杂类型引用地址不同，但是内容相同。
+
+			三、随机数
+				#依赖此模块
+				import random
+
+				1）随机取区间内的整数
+					random.randint(a,b) [a,b]间整数
+
+					>>> import random
+					>>> random.randint(0,1)
+					0
+					>>> random.randint(0,1)
+					1
+				
+				2）随机取序列中的元素
+					random.choice(sequence)
+					
+					>>> random.choice('abc')
+					'b'
+					>>> random.choice(['a',1,2])
+					2
+					>>> random.choice(range(10))
+					5	
+
+				3）随机从range()函数内取单个整数。
+					random.randrange()
+						
+						randrange(stop) -> 从0到stop-1之间取任意单个整数
+						randrange(start, stop[, step]) -> [start, stop) 范围取消单个整数
+
+
+					>>> random.randrange(1)
+					0
+					>>> random.randrange(2)
+					0
+					>>> random.randrange(2)
+					1
+
+				4) 将列表元素打乱
+					random.shuffle(list) -> None
+
+					>>> lst.sort()
+					>>> lst
+					[1, 2, 3, 4, 5]
+					>>> random.shuffle(lst) #洗列表
+					>>> lst
+					[1, 5, 2, 4, 3]
+
+					>>> lst.append('a')
+					>>> lst
+					[1, 5, 2, 4, 3, 'a']
+					>>> lst.sort(key=str)
+					>>> lst
+					[1, 2, 3, 4, 5, 'a']
+					>>> random.shuffle(lst)  #洗列表
+					>>> lst
+					['a', 5, 1, 2, 3, 4]
+					>>>
+
+			列表练习
+				1、100以内所有素数，一个数能被素数整除就是合数。将算过的质数保留下来。
+					合数：2-(本身-1)是否能被整除
+					合数：能被素数整除
+				2、求杨辉三角
+					1）
+					2）加0
+					3）
+						开辟列表空间：列表解析式、循环迭代
+						能不能少算一半数字
+						
 		3）tuple
 
 	键值对
