@@ -49,6 +49,588 @@ queue
 
 	二、序列：sequence
 		1）字符串
+			由单、双和三引号引住的 N个“字符串”的有序组合
+			字符串是不可变对象
+			python3 字符串是Unicode类型, UTF-8。(后面字符串的编码、解码；默认都是unicode, utf-8) 比较适合在网络中传输
+
+			第二个不可变对象(元组、字符串)
+				In [22]: a = 'ab' + 'c'
+
+				In [23]: a
+				Out[23]: 'abc'
+
+				In [24]: id(a) #内存位置
+				Out[24]: 30309632
+
+				In [25]: a = 'ab' + 'c' + "d" #修改时
+
+				In [26]: id(a) #内存位置在新位置，不是原地修改。
+				Out[26]: 62132928
+
+				#不可变对象
+				In [27]: a[1] #有序，即有索引。
+				Out[27]: 'b'
+
+				In [28]: a[1] = 'f'
+				---------------------------------------------------------------------------
+				TypeError                                 Traceback (most recent call last)
+				<ipython-input-28-be586423cf45> in <module>()
+				----> 1 a[1] = 'f'
+
+				TypeError: 'str' object does not support item assignment
+
+			python字符串，是“字符串”的组合
+				In [47]: a[1]
+				Out[47]: 'b'
+
+				In [48]: type(a)
+				Out[48]: str
+
+				In [49]: type(a[1]) #每个元素还是字符串
+				Out[49]: str
+
+
+			定义
+				In [29]: s1 = 'string'
+
+				In [30]: s2 = "string2"
+
+				In [31]: s3 = '''this's a "String" ''' 
+
+				In [32]: s4 = 'hello \n magedu.com'
+
+				In [33]: s5 = r"hello \n magedu.com" 
+
+				In [34]: s6 = 'c:\windows\nt'
+
+				In [35]: s7 = R"c:\windows\nt"
+
+				In [36]: s8 = 'c:\windows\\nt'
+
+				In [37]: sql = """select * from user where name='tom'""" 
+
+				三引号：其中可以直接使用换行，单双引号。
+				字符串前加r, R表示字符串中任何字符是原本意义。处理windows目录
+
+			字符串元素访问 -- 下标 
+				字符串支持索引访问：有序
+					In [58]: sql = """select * from user where name='tom'"""
+
+					In [59]: sql[4]
+					Out[59]: 'c' #返回的是字符串，老师叫(字符)
+				字符串不可变	
+					In [60]: sql[4] = 'o'
+					---------------------------------------------------------------------------
+					TypeError                                 Traceback (most recent call last)
+					<ipython-input-60-fe3590bf222f> in <module>()
+					----> 1 sql[4] = 'o'
+
+					TypeError: 'str' object does not support item assignment
+				有序的字符序列，for:
+					In [61]: for _ in a:
+					    ...:     print(_)
+					    ...:     print(type(_)) # 返回字符串类型
+					    ...:
+						a
+						<class 'str'>
+						b
+						<class 'str'>
+						c
+						<class 'str'>
+				字符串也是可迭代对象。iterable: 可迭代对象(range(), 顺序的也是可迭代的: 列表、元组、字符串)
+					In [65]: lst = list(a)
+
+					In [66]: lst
+					Out[66]: ['a', 'b', 'c']
+
+					In [68]: t = tuple(a)
+
+					In [69]: t
+					Out[69]: ('a', 'b', 'c')
+
+			字符串join连接
+				+ 连接
+					将两个字符串连接，在内存中生成一个新的字符串对象
+
+				"string".join(iterable) -> str
+					以string分隔连接可迭代对象的每个元素
+					iterable中的元素都是字符串
+
+					In [74]: a
+					Out[74]: 'abc'
+
+					In [75]: ','.join(a)
+					Out[75]: 'a,b,c'
+
+					In [76]: '     '.join(a)
+					Out[76]: 'a     b     c'
+
+					In [77]: '123'.join(a)
+					Out[77]: 'a123b123c'				
+
+					#元素是字符串类型
+					In [78]: lst = [1, [2, 3], 4]
+
+					In [79]: "::".join(lst)
+					---------------------------------------------------------------------------
+					TypeError                                 Traceback (most recent call last)
+					<ipython-input-79-79d8729d1f3d> in <module>()
+					----> 1 "::".join(lst)
+
+					TypeError: sequence item 0: expected str instance, int found
+
+					#元素不能是引用
+					In [82]: lst = ['1', ['2', '3'], '4']
+
+					In [83]: "::".join(lst)
+					---------------------------------------------------------------------------
+					TypeError                                 Traceback (most recent call last)
+					<ipython-input-83-79d8729d1f3d> in <module>()
+					----> 1 "::".join(lst)
+
+					TypeError: sequence item 1: expected str instance, list found
+
+					##示例
+					In [86]: lst = ['1', '2', '3']
+
+					In [87]: print('\"'.join(lst)) #引号间隔 
+					1"2"3
+
+					In [88]: print(" ".join(lst))
+					1 2 3
+
+					In [89]: print('\n'.join(lst)) #换行符间隔
+					1
+					2
+					3
+
+					In [90]: lst = ['1',['a','b'],'3'] #元素是列表不可行
+
+					In [91]: print(" ".join(lst))
+					---------------------------------------------------------------------------
+					TypeError                                 Traceback (most recent call last)
+					<ipython-input-91-5a7c8b71fc4f> in <module>()
+					----> 1 print(" ".join(lst))
+
+					TypeError: sequence item 1: expected str instance, list found
+
+				* 连接，任何有序序列都可以使用乘号
+					In [98]: a
+					Out[98]: 'abc'
+
+					In [99]: s1 = a #s1的内存地址是a
+
+					In [100]: s1
+					Out[100]: 'abc'
+
+					In [101]: s1 = a*4 
+
+					In [102]: a # s1改变，a应该改变。说明此时a*4生成了新的内存地址。也证明了字符串不可变对象。
+					Out[102]: 'abc'
+
+					In [103]: s1
+					Out[103]: 'abcabcabcabc'
+
+			字符串分割*
+				split系： 将字符串按照分隔符分割成    若干字符串，并返回“列表”。
+					split(sep=None, maxsplit=-1) -> list of strings
+						从左向右找sep
+						sep指定分割字符串，默认是至少为1个空白。awk -F[ ]+
+						maxsplit指定分割次数，-1表示遍历整个字符串。
+
+						In [104]: s1 = "I'm \ta super student."
+
+						In [113]: s1.split() #注意默认分隔符是多个空白字符
+						Out[113]: ["I'm", 'a', 'super', 'student.']
+
+						In [114]: s1.split(' ') #以单个空白切分
+						Out[114]: ["I'm", '\ta', 'super', 'student.']
+
+						In [115]: s1.split(' ',2) #整个字符串, 至少有2个' ', 所以切2次返回3段
+						Out[115]: ["I'm", '\ta', 'super student.']
+
+						In [116]: s1.split('\t',maxsplit=2) #整个字符串, 只有一个\t时，切n次只有2段。
+						Out[116]: ["I'm ", 'a super student.']
+
+						#从左而后，至少有2个s, 但只切一次，剩下的s在右侧
+						In [119]: s1.split(maxsplit=1, sep='s')
+						Out[119]: ["I'm \ta ", 'uper student.']
+
+					rsplit(sep=None, maxsplit=-1) -> list of strings (reverse split)
+						**从右至左找sep，取出列表是正向。
+						sep指定分割字符串，默认是至少为1个空白。awk -F[ ]+
+						maxsplit指定分割次数，-1表示遍历整个字符串。	
+
+						#从右至左，至少有2个s, 但只切一次，剩下的s在左侧
+						In [120]: s1.rsplit(maxsplit=1, sep='s')
+						Out[120]: ["I'm \ta super ", 'tudent.']
+						
+						#取文件名,反着切速度更快
+						In [121]: path = '/var/log/messages'
+
+						In [122]: path.rsplit(maxsplit=1, sep='/')
+						Out[122]: ['/var/log', 'messages']
+
+						In [123]: path.rsplit(maxsplit=1, sep='/')[-1]
+						Out[123]: 'messages'
+
+					splitlines([keepends]) -> list of strings
+						按照行来切分字符串
+						keepends：是否保留行分隔符
+						行分隔符：\n, \r\n, \r等...
+
+						#行分隔符
+						In [126]: 'ab c\n\nde fg\rk1\r\n'.splitlines()
+						Out[126]: ['ab c', '', 'de fg', 'k1']
+
+						#保留换行
+						In [127]: 'ab c\n\nde fg\rk1\r\n'.splitlines(True)
+						Out[127]: ['ab c\n', '\n', 'de fg\r', 'k1\r\n']
+
+						In [128]: s1 = '''I'm a super student.
+						     ...: Your're a super teacher.'''
+
+						In [129]: s1
+						Out[129]: "I'm a super student.\nYour're a super teacher."
+
+						In [130]: s1.splitlines()
+						Out[130]: ["I'm a super student.", "Your're a super teacher."]
+
+						In [131]: s1.splitlines(True)
+						Out[131]: ["I'm a super student.\n", "Your're a super teacher."]
+
+				partition系*：将字符串按照分隔符分割成 2段，返回这2段和分隔符的三个元素的“元组”。
+					partition(sep) -> (head, sep, tail)
+						从左而右，遇到分隔符将字符串分割两部分，返回头、分隔符、尾三元组(三个元素的元组)。
+						head, tail: 按sep，切一刀，两段，前head, 后tail.
+						sep必须指定，不能为空
+						没有分隔符，返回头、2个空元素的三元组。
+
+						In [132]: s1 = "I'm a super student."
+
+						In [133]: s1.partition('s') #从左而右(后面s存在)。以sep分成两段，返回头、分隔符、返回尾，组成一个三个元素的元组。
+						Out[133]: ("I'm a ", 's', 'uper student.')
+
+						In [134]:  s1.partition('super')
+						Out[134]: ("I'm a ", 'super', ' student.') #注意中间的super是一个分隔符。
+
+						#sep不能为空字符串
+						In [136]: s1.partition('')
+						---------------------------------------------------------------------------
+						ValueError                                Traceback (most recent call last)
+						<ipython-input-136-6703bd698c63> in <module>()
+						----> 1 s1.partition('')
+
+						ValueError: empty separator
+
+						#不存在的分隔符，返回本身和两个空元素
+						In [137]: s1.partition('abc')
+						Out[137]: ("I'm a super student.", '', '')
+
+					rpartition(sep) -> (head, sep, tail)                 (reverse partition)
+						从右而左，遇到分隔符将字符串分割两部分，返回头、分隔符、尾三元组(三个元素的元组)。
+						head, tail: 按sep，切一刀，两段，前head, 后tail.
+						sep必须指定，不能为空
+						没有分隔符，返回头、2个空元素的三元组。
+
+						In [138]: s1.rpartition('abc')
+						Out[138]: ('', '', "I'm a super student.")
+
+						In [139]: s1.rpartition('s')
+						Out[139]: ("I'm a super ", 's', 'tudent.') #s是分隔符，注意后面的s不存在。前面的s存在。是从右至左的查找sep
+
+						#处理文件名, 不在需要maxsplit。
+						In [140]: path = '/var/log/messages'
+
+						In [141]: path.rpartition('/')
+						Out[141]: ('/var/log', '/', 'messages')
+
+						In [142]: path.rpartition('/')[-1]
+						Out[142]: 'messages'
+
+			字符串大小写
+				应用：大小写，做判断的时候用。如何知道别人输入的命令一定是一定顺序的字符。输入ls，怎么知道是LS, Ls, lS, ls?
+				upper() 全大写
+				lower() 全小写
+				swapcase() 交互大小写, 大写的，变小写。小写的变大写。
+
+					In [143]: s1
+					Out[143]: "I'm a super student."
+
+					In [144]: s1.upper()
+					Out[144]: "I'M A SUPER STUDENT."
+
+					In [145]: s1.lower()
+					Out[145]: "i'm a super student."
+
+					In [146]: s1.swapcase()
+					Out[146]: "i'M A SUPER STUDENT."
+
+			字符串排版
+				字母型文字的排版，中文用的少
+				title() -> str
+					标题 每个单词的首字母都大写。
+
+					In [147]: s1.title()
+					Out[147]: "I'M A Super Student."
+
+				capitalize() -> str
+					行起始 最前面那个单词大写。		
+
+					In [148]: s1.capitalize()
+					Out[148]: "I'm a super student."
+
+				center(width[, fillchar]) -> str。有格式化了，不常用。
+					居中
+					width 打印宽度
+					fillchar 填充的字符，默认空。
+
+					In [155]: s2 = "abc"
+
+					In [156]: s2.center(50)
+					Out[156]: '                       abc                        '
+
+					In [157]: s2.center(50, '#')
+					Out[157]: '#######################abc########################'
+
+				zfill(width) -> str 		（zero fill）
+					width 打印宽度，居右，左边用0填充
+
+					In [158]: s2.zfill(50)
+					Out[158]: '00000000000000000000000000000000000000000000000abc'
+
+				ljust(width[, fillchar]) -> str左对齐
+				rjust(width[, fillchar]) -> str右对齐
+
+					In [159]: s2.ljust(50)
+					Out[159]: 'abc                                               '
+
+					In [160]: s2.rjust(50)
+					Out[160]: '                                               abc'
+
+					In [161]: s2.ljust(50,'#')
+					Out[161]: 'abc###############################################'
+
+					In [162]: s2.rjust(50,'#')
+					Out[162]: '###############################################abc'
+
+			字符串修改*
+				返回一个新的字符串，注意：字符串是不可变对象
+				replace(old, new[, count]) -> str
+					从左而右 在字符串中找到 old子串 替换为 new子串， 返回新字符串
+					count：替换几次，默认替换所有找到的子串。
+
+					In [164]: 'www.magedu.com'.replace('w','p') #不指定count, 将替换字符串中所有匹配到的子串。
+					Out[164]: 'ppp.magedu.com'
+
+					In [165]: 'www.magedu.com'.replace('w','p',2) #替换2次
+					Out[165]: 'ppw.magedu.com'
+
+					In [166]: 'www.magedu.com'.replace('w','p',3) 
+					Out[166]: 'ppp.magedu.com'
+
+					In [167]: 'www.magedu.com'.replace('ww','p',2) #匹配到一个ww, 替换2次，只能替换一个。
+					Out[167]: 'pw.magedu.com'
+
+					In [168]: 'www.magedu.com'.replace('www','python',2) #替换域名
+					Out[168]: 'python.magedu.com'
+
+				# 应用：去掉两头或单边的非法字符。用户输入5位数，但加了空格。应该去除两边的空格。
+				strip([chars]) -> str
+					一直去除字符串两端的 单个字符属于字符集chars中的字符，直到字符串两端的单个字符不存在字符集chars中的任意单个字符。
+					如果chars没有指定，去除两端所有空白字符\t, \n, \r\n。
+
+					In [170]: s = "\r\n\tHello Python \n  \t"
+
+					In [171]: s.strip()
+					Out[171]: 'Hello Python'
+
+
+					In [173]: s = 'I am very very very sorry  '
+
+					In [174]: s.strip() #去掉两头的空白
+					Out[174]: 'I am very very very sorry'
+
+					In [175]: s.strip('r') #两头没有r,不去掉
+					Out[175]: 'I am very very very sorry  '
+
+					In [176]: s.strip('r ') #先看两头是空白，给定的有空白，去掉。但两头没有r，不去掉。
+					Out[176]: 'I am very very very sorry'
+
+					In [177]: s.strip('r y')#先看两头是空白，给定的有空白，去掉。然后有y，去掉。然后有r去掉。
+					Out[177]: 'I am very very very so'
+
+					In [178]: s.strip('r yI')
+					Out[178]: 'am very very very so'
+
+					In [179]: s.strip('r yIamso')
+					Out[179]: 'very very ve'
+
+				lstrip([chars]) -> str
+					从左开始
+				
+				rstrip([chars]) -> str
+					从右开始
+
+					In [180]: s.rstrip('r yIamso')
+					Out[180]: 'I am very very ve'
+
+					In [181]: s.lstrip('r yIamso')
+					Out[181]: 'very very very sorry  '
+
+			字符串查找*
+				注意: 只有-1时, 表示最后一位.
+				使用find, 返回-1,则找不到. 使用index, 返回异常, 需要捕获, 不捕获则异常一直到主线程, 程序会崩溃的. 所以老师更倾向于find, rfind.
+				find(sub[, start[, end]]) -> int
+					在[start,end) 区间内， 从左而右查找子串sub。找到返回 子串起始字母的 正索引，没有找到返回-1。
+				rfind(sub[, start[, end]]) -> int
+					在[start,end) 区间内， 从右至查找子串sub。找到返回 子串起始字母的 正索引，没有找到返回-1。		
+
+					In [210]: s = "I am very very very sorry"
+
+					In [211]: s.find('very')
+					Out[211]: 5
+
+					In [212]: s.find('very',5)
+					Out[212]: 5
+
+					In [213]: s.find('very',6)
+					Out[213]: 10
+
+					In [214]: s.find('very',11)
+					Out[214]: 15
+
+					In [204]: s.find('y')
+					Out[204]: 8
+
+					In [205]: s.rfind('y')
+					Out[205]: 24
+
+					In [206]: len(s)
+					Out[206]: 25
+
+					In [207]: s.rfind('y',-1) #从-1那个位置找y。而不是-1到左侧起始  
+					Out[207]: 24
+
+					In [239]: s.rfind('very', -1) #从-1到起始的very是15, 只有-1那个位置是找不到very的.
+					Out[239]: -1
+
+
+					In [208]: s.rfind('y',-15,-1) #在[-10, -1)范围内，“very very sorr”从右向左查找y
+					Out[208]: 18
+
+					In [225]: s.rfind('very',-15, -1)  #在[-10, -1)范围内，“very very sorr”从右向左查找 very子串首个字母的索引。
+					Out[225]: 15
+
+					In [220]: s.rfind('y',20, -1) #从[20, -1)范围内，从右向左查找y， 不存在返回-1
+					Out[220]: -1
+
+					In [223]: s.find('xxxx',20) #不存在返回-1
+					Out[223]: -1
+
+				index(sub[, start[, end]]) -> int
+					在[start,end) 区间内， 从左而右查找子串sub。找到返回 子串起始字母的 正索引，没有找到抛出异常IndexError。
+				rindex(sub[, start[, end]]) -> int
+					在[start,end) 区间内， 从右至查找子串sub。找到返回 子串起始字母的 正索引，没有找到抛出异常IndexError。
+
+					In [226]: s = "I am very very very sorry"
+
+					In [227]: s.index('very')
+					Out[227]: 5
+
+					In [228]: s.index('very', 5) #[5, 结束]
+					Out[228]: 5
+
+					In [229]: s.index('very', 6, 13) #[6,13)中找不到，抛出异常。
+					---------------------------------------------------------------------------
+					ValueError                                Traceback (most recent call last)
+					<ipython-input-229-fe342f207469> in <module>()
+					----> 1 s.index('very', 6, 13)
+
+					ValueError: substring not found
+
+					In [232]: s.rindex('very', 10) #[10,结束]中 very very sorry 从右向左找到very子串的首字母v，是15
+					Out[232]: 15
+
+					In [233]: s.rindex('very', 10, 15) #[10,15)中 very 从右向左找到very子串的首字母v，是10
+					Out[233]: 10
+
+					In [234]: s.rindex('very', -10, -1) #[-10,-1)中 very sorr 从右向左找到very子串的首字母v，是15
+					Out[234]: 15
+
+				时间复杂度:
+					index, count方法都是O(n), 随着数据规模增大, 而效率下降
+
+					len(string)返回字符串的长度, 即字符的个数. O(1)		
+
+
+				count(sub[, start[, end]]) -> int
+					在[start,end) 区间内, 从左而右, 统计子串sub出现的次数. 在给定范围内不存在此子串, 返回0. 
+
+					In [244]: s
+					Out[244]: 'I am very very very sorry'
+
+					In [245]: s.count('very')
+					Out[245]: 3
+
+					In [246]: s.count('very', 10)
+					Out[246]: 2
+
+					In [247]: s.count('very', -10,-1)
+					Out[247]: 1
+
+					In [248]: s.count('very', -1)
+					Out[248]: 0
+
+			字符串判断*
+				应用: 先strip掉,两台不想要的字符,再判断!!!
+				endswith(suffix[, start[, end]]) -> bool
+					在[start, end)区间内, 字符串是否suffix结尾.
+
+				startswith(prefix[, start[, end]]) -> bool
+					在[start, end)区间内, 字符串是否suffix开头.
+
+					In [249]:  s
+					Out[249]: 'I am very very very sorry'
+
+					In [250]: s.startswith('very')
+					Out[250]: False
+
+					In [251]: s.startswith('very', 5)
+					Out[251]: True
+
+					In [252]: s.startswith('very', 5,9) #在[5,9)区间 very
+					Out[252]: True
+
+					In [253]: s.endswith('very', 5,9) 
+					Out[253]: True
+
+					In [254]: s.endswith('very', 5,10) #在[5,10) 'very '
+					Out[254]: False
+
+					In [255]: s.endswith('sorry') 
+					Out[255]: True
+
+					In [256]: s.endswith('sorry',5) #very very very sorry
+					Out[256]: True
+
+					In [257]: s.endswith('sorry',5, -1) #very very very sorr
+					Out[257]: False
+
+					In [258]: s.endswith('sorry',5, 100) #超界时, 当尾部.
+					Out[258]: True
+
+			字符串判断is系列
+				isalnum() -> bool是否是字母和数字的组合, 浮点数不行.
+				isalpha() -> bool是否是纯字母
+				isdecimal() -> bool是否是纯十进制数字
+				isdigit() 是否全数字
+				isidentifier() 是否是字母和下划线开头，其它是字母、数字、下划线。****标识符定义一致？, 用户名
+				islower() 是否全小写
+				isupper() 是否全大写
+				isspace() 是否只包含空白字符。 strip() 一下，如果全空白，只剩下空字符串。
+
+
 		2）列表: 由若干个元素(数值、字符、对象、列表)有序的组成
 			元素可变的线性数据结构
 				元素是对象：是指针。复制的是指针。修改复制后的结果会影响原列表。
@@ -74,7 +656,7 @@ queue
 			2）、获取帮助：help(list)
 				list() -> new empty list
 				list(iterable) -> new list initialized from iterable's items
-					iterable: 可迭代对象(range(), 顺序的也是可迭代的: 列表)
+					iterable: 可迭代对象(range(), 顺序的也是可迭代的: 列表、字符串)
 
 			3）、生成列表：
 				lists = []
@@ -239,7 +821,7 @@ queue
 							>>> lists
 							[11, 0, 1, 2, 3, 12, 11, 4]
 						index超上界，上界追加。
-						index超下界，下界追加。
+						index超下界，下界插入。
 							>>> lst
 							[1, 2, 3, 2, 2, 5, 6, 10]
 							>>> lst.insert(100,7) #调用append就可以了。
@@ -282,7 +864,7 @@ queue
 						
 						清空所有元素，剩下空列表。
 						注意：很多对象释放(大规模的数据集清除后或做过多的clear)，会引起垃圾回收。这个时候你正在忙，它在垃圾回收。你的内存会被它调整一次。这个时候就带来效率问题。
-						可能需要new一个。
+							
 						>>> lst
 						[7, 1, 2, 3, 2, 2, 5, 6, 10, 7, 11, 12, 13]
 						>>> lst.clear()
@@ -360,7 +942,7 @@ queue
 					>>> lst0 is lst1  #is 比较内容和内存位置. not is
 					False
 					
-				注意：= 赋值，lst1指向的内存空间和lst0内存空间相同。不会新开辟内存空间。内存地址也相同。
+				注意：= 赋值	
 					变量名：对内存中一段空间起名。 
 					>>> lst1 = lst0
 					>>> id(lst1) #此处内存地址是上面lst0内存地址，相同的。
@@ -465,7 +1047,7 @@ queue
 				import random
 
 				1）、随机取区间内的整数
-					random.randint(a,b) [a,b]间整数
+						
 
 					>>> import random
 					>>> random.randint(0,1)
@@ -529,7 +1111,153 @@ queue
 						开辟列表空间：列表解析式、循环迭代
 						能不能少算一半数字
 						
-		3）tuple
+		3）tuple, 相当于只读列表
+			元素不可变的有序的序列
+			()表示
+			注意: 内容不可变, 但是属性可以改变
+
+			结构简单,比列表占用更少的内存空间
+
+			1、定义元组
+				tuple() -> 空元组
+				tuple(iterable) -> 可迭代对象构造tuple
+
+				空元组
+					t = tuple()
+					t = ()
+				多个元素
+					t = tuple(range(1,7,2)) # iterable
+					t = (2,4,5,6,2) #可重复
+				单个元素
+					t = (1,)
+					t = (1,)*5
+					t = (1,2,3)*6
+
+					In [1]: t1 = (1,) # 单个元素必须加,
+
+					In [2]: type(t1)
+					Out[2]: tuple
+
+					In [3]: t1 = (1) # 单个元素没有逗号, 则表示为优先级.
+
+					In [4]: type(t1)
+					Out[4]: int
+
+			有序和无序
+				有序: 添加进去的顺序和打印出来的顺序相同
+				无序: 添加进去的顺序和打印出来的顺序不相同
+
+			2、常用函数
+				index(value, [start,[stop]]) 求索引
+				count(value) 数数	
+				len(tuple)   个数
+
+				元组只读， 没有增、改、删除操作
+
+			3、特殊修改元组
+				In [23]: t1
+				Out[23]: (1, [2, 3], 4) #里面的列表对象，只是存储了一个引用。
+
+				In [24]: t1[0] = 10
+				---------------------------------------------------------------------------
+				TypeError                                 Traceback (most recent call last)
+				<ipython-input-24-49727f6c8925> in <module>()
+				----> 1 t1[0] = 10
+
+				TypeError: 'tuple' object does not support item assignment
+
+				In [25]: t1[1][0] = 10 # 只修改了引用指向对象，并没有修改引用。
+
+				In [26]: t1
+				Out[26]: (1, [10, 3], 4)
+
+			4、命名元组namedtuple, 搜索官方文档的关键字
+				collections.namedtuple(typename, field_names, *, verbose=False, rename=False, module=None) 
+					命名元组，返回一个元组的子类， 并定义了字段
+					typename  类型名
+					field_names可以是空格或逗号分割的字段的字符串，可以是字段的列表。
+					verbose=False, rename=False, module=None 带等号，表示默认值
+
+					from collections import namedtuple
+					# 从集合大类的集合下面导入某个类namedtuple
+				列表
+					In [29]: Point = namedtuple('_Point	', ['x','y']) #Point, field_names即定义类的属性
+
+					In []: type(Point)
+					Out[]: type
+
+					In [30]: p = Point(11,22) #从类实例出对象
+
+					In [44]: p
+					Out[44]: _Point(x=11, y=22)
+
+					In [45]: p.x
+					Out[45]: 11
+
+					In [46]: p.y
+					Out[46]: 22
+
+					In [48]: p.x + p.y
+					Out[48]: 33
+
+				空格
+					In [36]:  Student = namedtuple('_Student', 'name age')
+
+					In [37]: tom = Student('tom', 20)
+
+					In [40]: jerry = Student('jerry', 18)
+
+					In [41]: jerry.name
+					Out[41]: 'jerry'
+
+					In [42]: jerry.age
+					Out[42]: 18
+
+			练习：
+				1、3个数, if-else语句实现由小至大
+				a = 1
+				b = 2
+				c = 1
+				
+				if a >= b or a >= c:
+					if b >= c:
+						print(a, b, c)
+					else:
+						print(a, c, b)
+				if b >= a or b >= c:
+					print(b, c, a) if c >= a else print(b, a, c)
+				if c >= a or c >= b:
+					print(c, a, b) if a >= b else print(c, b, a)
+				2、3个数, max函数
+					lst = []
+					lst.append(a)
+					lst.append(b)
+					lst.append(c)
+
+					while lst:
+						max_n = max(lst)
+						lst.remove(max_n)
+						print(max_n)
+				3、sort
+					lst = []
+					lst.append(a)
+					lst.append(b)
+					lst.append(c)
+
+					lst.sort(reverse=False)
+
+				4、冒泡法
+					lst = []
+					lst.append(a)
+					lst.append(b)
+					lst.append(c)
+
+					for i in range(len(lst)):
+						for j in range(i,len(lst)):
+							if lst[i] > lst[i+1]:
+								tmp = lst[i+1]
+								lst[i+1] = lst[i]
+								lst[i] = tmp
 
 	三、键值对
 		集合: set （老师叫集）

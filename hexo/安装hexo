@@ -38,26 +38,30 @@
 
        Local mode is the default.  Use -g or --global on any command to operate in global mode instead.
 
-    hexo init test
-    	注意：安装过程中copy的文件来自，git克隆https://github.com/hexojs/hexo-starter
-    	如果有err错误, 重新安装未安装成功的包
-    	cd test
-    	npm install
+    初始化hexo目录
+	    hexo init test
+	    	注意：安装过程中copy的文件来自，git克隆https://github.com/hexojs/hexo-starter
+	    	如果有err错误, 重新安装未安装成功的包
+	    	cd test
+	    	npm install会根据package.json文件中的dependencies来下载项目依赖的包
 
 
 4、生成网站页面
 	hexo generate 简写hexo g
-
 	生成public目录，生成的网站。
 
- 
+ 	一般写文章步骤
+ 		hexo new "文章名" 在source/_posts/目录下生成文章名.md文件，编辑此文件
+ 		hexo g   将source/_posts/目录下*.md生成public目录下的网页文件
+
+
 5、网页查看生成的网站
 	hexo server 简写hexo s
 	访问http://localhost:4000/
 
 
-6、布署hexo至github
-
+6、布署网站
+	将public生成的网站托管到github上。github通过hook布署到网站
 
 	cd test
 	npm install hexo-deployer-git --save
@@ -66,16 +70,32 @@
 		## Docs: https://hexo.io/docs/deployment.html
 		deploy:
 		  type: git
-		  repo: https://github.com/slcnx/liangcheng.github.io.git
+		  repo: root@server:/path/to/somdir.git
 		  branch: master
 		  message: 
 
-	hexo d
+	hexo g  -d
 
+
+	在目标主机上生成目录
+		git init /path/to/somdir.git --bare
+
+	添加提交后的脚本
+		cat /path/to/somdir.git/hooks/post-receive 
+		#!/bin/bash
+		GIT_REPO=/opt/blog.git
+		TMP_GIT_CLONE=/tmp/blog
+		PUBLIC_WWW=/opt/html
+
+		rm -rf ${TMP_GIT_CLONE}
+		git clone $GIT_REPO $TMP_GIT_CLONE
+		rm -rf ${PUBLIC_WWW}/*
+		cp -rf ${TMP_GIT_CLONE}/* ${PUBLIC_WWW}
 
 
 7、切换主题 https://hexo.io/zh-cn/docs/themes
 	搜索的主题：https://www.zhihu.com/question/24422335/answers/created
+		a: https://github.com/iissnan/hexo-theme-next
 
 	主题结构
 		.
@@ -90,3 +110,16 @@
 
 8、配置主题配置
 http://theme-next.iissnan.com/theme-settings.html
+https://www.jianshu.com/p/e03e363713f9
+
+9、搜索
+ Hexo 项目目录下执行下列命令即可。
+
+	npm install --save hexo-generator-search
+	如此一来，我们只需在站点配置文件 _config.yml 当中写入如下配置，即可为全站的文档生成索引文件了。
+search:
+  path: search.xml
+  field: post
+
+10、RSS
+npm install hexo-generator-feed --save
