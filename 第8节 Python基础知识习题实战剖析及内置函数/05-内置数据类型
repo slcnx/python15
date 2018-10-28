@@ -48,7 +48,11 @@ queue
 				hex() 十六进制
 
 	二、序列：sequence
+		学习路径: list --> [tuple --> 字符串 --> bytes] --> bytearray
+
 		1）字符串
+			不可变的 有序的 字符串类型组成的 序列
+
 			由单、双和三引号引住的 N个“字符串”的有序组合
 			字符串是不可变对象
 			python3 字符串是Unicode类型, UTF-8。(后面字符串的编码、解码；默认都是unicode, utf-8) 比较适合在网络中传输
@@ -629,6 +633,498 @@ queue
 				islower() 是否全小写
 				isupper() 是否全大写
 				isspace() 是否只包含空白字符。 strip() 一下，如果全空白，只剩下空字符串。
+
+			字符串格式化
+				输出字符串：
+					join：连接序列(sequence)中的元素。
+					+：需要str()转换为字符串。
+
+				python 2.5之前, c风格的printf函数 printf-style formatting
+						%[-|补][width]<s|d|%|f> % (,)
+							-： 开启左对齐，默认右对齐。
+							补：当右对齐时，在左侧补0或空格。默认空格。
+							width: 宽度，默认是后面字符长度。如果指定的宽度小于后面字符长度，则使用默认。反之，补充由"补"指定的字符。
+							%s: str()
+							%d: 整型数值
+							%%: %本身
+							%x: 小写十六进制
+							%X: 大写十六进制
+
+							%[[[补]宽度].精度]f: 浮点数
+								%<.精度>f
+								%<宽度><.精度>f
+								%<补><宽度><.精度>f
+								宽度：精度换算后的宽度
+
+					格式要求
+						占位符：占一个位置，以后将用数值来填充。%加一个格式字符组成。%s：后面数据当string处理.str(), %d转换为整型
+						占位符中可以插入修饰字符：%03d: 3宽度，表示后面的字符占据3个位置。0表示为空的填充0.
+						format % values, 格式字符串 分隔符% 被格式值
+						values：只能是一个对象；%s % 5。 或和格式字符串占位符数目相等的元组或字典： %s %s % (5, 5)。且对象能被前面占位符转换
+
+					In [269]: "I am %03d" % (20,) #20占3个宽度，空一个补0
+					Out[269]: 'I am 020'
+
+					In [270]: "I am %013d" % (20,)
+					Out[270]: 'I am 0000000000020'
+
+					In [271]: "I am %013d" % (20,21) #右边对象数目要与占位符数目一致！
+					---------------------------------------------------------------------------
+					TypeError                                 Traceback (most recent call last)
+					<ipython-input-271-26d7cf56d769> in <module>()
+					----> 1 "I am %013d" % (20,21)
+
+					TypeError: not all arguments converted during string formatting
+
+					In [272]: "I am %013d %10s" % (20,21) #前后一致时，20占3个宽度补0. 21占10个宽度，默认补空格。
+					Out[272]: 'I am 0000000000020         21'
+
+					In [273]: "I am %013d % 10s" % (20,21) #前后一致时，20占3个宽度补0. 21占10个宽度，补空格。
+					Out[273]: 'I am 0000000000020         21'
+
+					In [274]: "I am %013d % 10s %s" % (20,21) #前后数目不一致，会报异常。
+					---------------------------------------------------------------------------
+					TypeError                                 Traceback (most recent call last)
+					<ipython-input-274-498ae5b23447> in <module>()
+					----> 1 "I am %013d % 10s %s" % (20,21)
+
+					TypeError: not enough arguments for format string
+
+					# 打印本身
+					In [287]: 'I am %s%%.' %  20
+					Out[287]: 'I am 20%.'
+
+					# 3是宽度.2精度，会四舍五入。%%: %. 10的16进制. X: 15的大写十六进制。F。占位符是0.
+					In [288]: '%3.2f%%, Ox%x, OX%02X' % (89.7654, 10, 15)
+					Out[288]: '89.77%, Oxa, OX0F'
+
+					In [289]: '%3.2f%%, Ox%x, OX%02x' % (89.7654, 10, 15)
+					Out[289]: '89.77%, Oxa, OX0f'
+
+					#89.77是5个数字宽度
+					In [293]: '%5.2f%%, Ox%x, OX%02x' % (89.7654, 10, 15)
+					Out[293]: '89.77%, Oxa, OX0f'
+
+					#前面是宽度，默认补空格.
+					In [294]: '%6.2f%%, Ox%x, OX%02x' % (89.7654, 10, 15)
+					Out[294]: ' 89.77%, Oxa, OX0f'
+
+					#前面是宽度，补0.
+					In [295]: '%06.2f%%, Ox%x, OX%02x' % (89.7654, 10, 15)
+					Out[295]: '089.77%, Oxa, OX0f'
+
+					#左对齐
+					In [305]: '%6.2f%%, Ox%x, OX%02x' % (89.7654, 10, 15) #默认右对齐
+					Out[305]: ' 89.77%, Oxa, OX0f'
+
+					In [306]: '%-6.2f%%, Ox%x, OX%02x' % (89.7654, 10, 15) #加-表示左对齐
+					Out[306]: '89.77 %, Oxa, OX0f'
+
+					In [312]: '%-06.2f%%, Ox%x, OX%02x' % (89.7654, 10, 15) #使用左对齐时，补0或空格将失效
+					Out[312]: '89.77 %, Oxa, OX0f'
+
+				format函数 格式字符串语法 -------- Python鼓励使用
+
+					"{} {xxx}".format(*args, **kwargs) -> str
+						{} 占位符, 
+							{} 表示按照顺序匹配位置参数. 0, 1, 2 ...
+							{n} 将取后面序列的 由{}内指定的n索引 对应元素
+							{xxx} 将取关键字参数中搜索名称一致的值
+							{{}} 表示打印花括号
+						{xxx} 占位符带名称,后面使用字典类型. 但是现在不使用字典类型. 所以后面**kwargs不需要使用了.
+						*args: 位置参数,元组或列表
+						kwargs: 关键字形参数, 一个字典
+
+						字符串拼接和format都会new出一个新的字符串。
+
+					位置参数,跟后面序列的索引相关
+						In [313]: '{}:{}'.format('192.168.1.100', 8888) #按照索引顺序用位置参数替换 前面格式字符串中的占位符.
+						Out[313]: '192.168.1.100:8888'
+					关键字参数或命名参数, 按照名词匹配
+						In [314]: "{server} {1}:{0}".format(8888, '192.168.1.100', server='Web Server Info: ') #根据格式字符串的占位符中的索引或key, 查找位置参数或关键字参数, 取得值.
+						Out[314]: 'Web Server Info:  192.168.1.100:8888'
+					访问元素: 只要索引或key对应的值能被str()转换, 都可以.
+						In [315]: "{0[0]}.{0[1]}".format(('magedu', 'com'))
+						Out[315]: 'magedu.com'
+
+						#取序列中的第几个元素
+						In [316]: t = ['magedu', 'com']
+
+						In [317]: "{}.{}".format(t[0], t[1])
+						Out[317]: 'magedu.com'
+
+						In [319]: "{0}.{0}".format(('magedu', 'com')[0])
+						Out[319]: 'magedu.magedu'
+
+						In [321]: "{}.{}".format(('magedu', 'com')[0], ('', 'com')[1])
+						Out[321]: 'magedu.com'
+
+						In [322]: "{}".format([1, 2]) #索引0对应的列表,能被str()转换, 没有问题
+						Out[322]: '[1, 2]'
+
+						In [323]: "{}".format([1, 2, [3, 4], 5])
+						Out[323]: '[1, 2, [3, 4], 5]'
+					对象属性访问
+						In [326]: from collections import namedtuple
+
+						In [327]: Point = namedtuple('P', 'x y')
+
+						In [328]: p1 = Point(5,6)
+
+						In [329]: p1.x
+						Out[329]: 5
+
+						In [330]: p1.y
+						Out[330]: 6
+
+						#
+						In [332]: p1
+						Out[332]: P(x=5, y=6)
+
+						In [333]: "{{{0}, {0}}}".format(p1) #将对象作为0
+						Out[333]: '{P(x=5, y=6), P(x=5, y=6)}'
+
+						In [334]: "Point = ({{{0.x}, {0.y}}})".format(p1) # 日志格式化, 便于切割、分析。
+						Out[334]: 'Point = ({5, 6})'
+					对齐
+						{[index]:[补1][<|>][补2][width]}
+							index：索引
+							: 固定格式
+							补1: 特殊字符, 左对齐，右侧补；右对齐，左侧补；居中两边补。
+							[<|>] < 左对齐，>右对齐, 默认右对齐。 ^居中，先填充右边。
+							补2：0或空格，默认补空格。左对齐，右侧补；右对侧，左侧补；居中两边补。
+							width: 索引或key对应，位置参数或关键字参数中对应的元素，占用宽度。默认是字符长度。给定宽度小于值长度，默认。给定宽度大于值长度，补充 由补2指定的
+
+							In [336]: '{0}*{1}={2:<2}'.format(3,2,2*3)# 格式字符串中索引2对应位置参数6，6占用两个字符宽度，默认补空格。左对齐，则右侧补空格。
+							Out[336]: '3*2=6 '
+
+							In [337]: '{0}*{1}={2:<02}'.format(3,2,2*3)# 给定补0。左对齐，则右侧补0。
+							Out[337]: '3*2=60'
+
+							In [342]: '{0}*{1}={2:>02}'.format(3,2,2*3)# 给定补0。右对齐，则左侧补0。
+							Out[342]: '3*2=06'
+
+							#居中
+							In [347]: '{:^8}'.format('centered')
+							Out[347]: 'centered'
+
+							In [348]: '{:^9}'.format('centered')
+							Out[348]: 'centered '
+
+							In [349]: '{:^10}'.format('centered')
+							Out[349]: ' centered '
+
+							In [376]: '{:^30}'.format('centered')
+							Out[376]: '           centered           '
+
+							In [377]: '{:^030}'.format('centered') #居中两边补
+							Out[377]: '00000000000centered00000000000'
+
+							In [378]: '{:^#30}'.format('centered') #补2位置只能补0
+							---------------------------------------------------------------------------
+							ValueError                                Traceback (most recent call last)
+							<ipython-input-378-d1c1dd612494> in <module>()
+							----> 1 '{:^#30}'.format('centered')
+
+							ValueError: Alternate form (#) not allowed in string format specifier
+
+							In [379]: '{:0^30}'.format('centered') #补1位置可以补0或特殊字符。
+							Out[379]: '00000000000centered00000000000'
+
+							In [380]: '{:#^30}'.format('centered')
+							Out[380]: '###########centered###########'
+
+					进制
+						{:d} 十进制
+						{:x} 十六进制，加修饰符 {:#x}
+						{:o} 八进制，加修饰符 {:#o}
+						{:b} 二进制，加修饰符 {:#b}
+
+						#无修饰符
+						In [388]:  "int: {0:d}; hex: {0:x}; oct: {0:o}; bin: {0:b}".format(10)
+						Out[388]: 'int: 10; hex: a; oct: 12; bin: 1010'
+
+						#有修饰符
+						In [400]:  "int: {0:d}; hex: {0:#x}; oct: {0:#o}; bin: {0:#b}".format(10)
+						Out[400]: 'int: 10; hex: 0xa; oct: 0o12; bin: 0b1010'
+
+
+						#大写进制
+						In [405]: octets = [192, 168, 0, 1]
+
+						In [406]: '{:02X}{:02X}{:02X}{:02X}'.format(*octets) # 参数解构，依次将每个元素分解开，4个元素，正好对应前面没有写的索引0，1，2，3
+						Out[406]: 'C0A80001'
+
+						In [407]: '{:02X} {:02X} {:02X} {:02X}'.format(*octets) #0和1的十六进制始终是0和1，占2个宽度，默认右对齐，所以左侧补0.
+						Out[407]: 'C0 A8 00 01'
+
+						In [408]: '{:02X} {:02X} {:02X} {:<02X}'.format(*octets) #修改为左对齐时，右侧补了0.
+						Out[408]: 'C0 A8 00 10'
+
+						扩展：参数解构
+							octets = [192, 168, 0, 1] #4个元素
+							(*octets)  #将分解成4个元素
+
+
+					format练习
+						语句块间故意留白
+						好的习惯，变量先定义，显示了作用域
+						用户输入一个数字
+							判断是几位数
+							打印每一位数及其重复的次数。打印顺序个、十、百、千、万...位打印
+
+						输入5个数字，打印每个数字的位数，将三个数字排序打印，要求升序打印。
+
+			bytes、bytearray
+				python3引入两个新类型
+					bytes     不可变 字节序列(字节在内存中就是连在一起的)。
+					bytearray 可变 字节数组、列表
+
+					字节序列和字符序列的差异
+						字符串：按字符为单位组成的序列，可以编码来理解。
+						字节：  按单个字节为单位组成的序列。可能只能半个字符。
+
+					不可变序列变成可变序列：list()处理
+
+				编码与解码
+					编码：数字和字符对应关系。字符对应屏幕上的点阵。
+					字符串按照不同的字符集编码encode返回字节序列bytes.
+						encode(encoding='utf-8', errors='strict') -> bytes
+							encoding：默认utf-8以什么编码方式
+							errors: 默认为strict, 表示严格
+							-> bytes: python3.5后，表示方法返回类型。
+							字符 --> 数字
+
+					解码：
+					字节序列按照不同的字符集解码decode返回字符串.
+						bytes.decode(encoding='utf-8', errors='strict') -> str
+						bytesarray.decode(encoding='utf-8', errors='strict') -> str
+							数字 --> 字符
+
+					乱码：别人给出的方式，和你理解的方式不同。
+
+				bytes		
+					bytes定义
+						bytes() 空bytes
+
+						bytes(int) 由int指定bytes的长度, 补0填充
+						bytes(iterable_of_ints) -> bytes  [0, 255]范围内的int组成的可迭代对象, 返回长度的bytes.
+
+							In [501]: bytes(1)
+							Out[501]: b'\x00'
+
+							In [502]: bytes(2)
+							Out[502]: b'\x00\x00'
+
+							In [426]: bytes(range(10))
+							Out[426]: b'\x00\x01\x02\x03\x04\x05\x06\x07\x08\t'
+
+							In [427]: bytes(range(1))
+							Out[427]: b'\x00'
+
+							In [428]: bytes(range(100))
+							Out[428]: b'\x00\x01\x02\x03\x04\x05\x06\x07\x08\t\n\x0b\x0c\r\x0e\x0f\x1
+							12\x13\x14\x15\x16\x17\x18\x19\x1a\x1b\x1c\x1d\x1e\x1f !"#$%&\'()*+,-./01
+							9:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abc'
+
+							In [429]: bytes([1,3,5])
+							Out[429]: b'\x01\x03\x05'
+
+							In [430]: bytes([91,93,95])
+							Out[430]: b'[]_'	
+						bytes(string, encoding[, errors]) -> bytes 等价于string.encode()
+							In [432]: bytes("abc",'utf-8')
+							Out[432]: b'abc'
+
+							In [433]: bytes("abc",'utf8')
+							Out[433]: b'abc'
+
+							In [434]: "abc".encode() #string.encode()示例
+							Out[434]: b'abc' #字节序列
+
+							In [435]: a = "abc".encode() #bytes.decode()示例
+
+							In [436]: type(a)
+							Out[436]: bytes
+
+							In [437]: a.decode()
+							Out[437]: 'abc' #字符
+
+						bytes(bytes_or_buffer) -> immutable copy of bytes_or_buffer 从一个字节序列或buffer复制出一个新的不可变的bytes对象。 shadow拷贝。拷贝对象时，只是拷贝引用。
+							In [449]: a
+							Out[449]: b'abc'
+
+							In [438]: b  =  bytes(a)
+		 					#拷贝之后，内存地址不变，在列表中只是复杂类型、对象拷贝才只拷贝地址。这里就只拷贝了地址。但是拷贝出的结果是不可变的。列表拷贝出的结果是可变的。
+							In [439]: id(a)
+							Out[439]: 61909136
+
+							In [440]: id(b)
+							Out[440]: 61909136
+
+							In [450]: a == b #拿两个bytes比较其中的abc
+							Out[450]: True
+
+							In [451]: a is b #比较id
+							Out[451]: True
+
+						使用b前缀
+							b'abc' b' ', ' '里面是字节序列
+							只允许基本ASCII使用字符形式b'abc9'
+							使用16进制表示b"\x41\x61"
+
+					bytes操作
+						与string类型基本一致，都是不可变类型。注意，输入为bytes，输出也是bytes类型。
+							In [472]: a
+							Out[472]: b'abc'
+
+							In [473]: a.split('b')
+							---------------------------------------------------------------------------
+							TypeError                                 Traceback (most recent call last)
+							<ipython-input-473-3d4470876faa> in <module>()
+							----> 1 a.split('b')
+
+							TypeError: a bytes-like object is required, not 'str'
+
+							In [474]: a.split(b'b')
+							Out[474]: [b'a', b'c']
+
+						类方法：bytes.fromhex(string)  string是两个字符的16进制形式, '6162 6a 6b', 空格将被忽略, 返回bytes.
+							对象方法:
+								a.split(b'b')
+									a: 是bytes类的一个实例/对象。.split是对象方法。
+
+							类方法: 拿类型找某个方法，即类方法。类似于c++, java中的静态方法。
+								In [481]: str.
+								         str.capitalize   str.encode       str.format       str.isalpha
+								         str.casefold     str.endswith     str.format_map   str.isdecimal
+								         str.center       str.expandtabs   str.index        str.isdigit      >
+								         str.count        str.find         str.isalnum      str.isidentifier
+
+							示例:
+								In [484]: bytes.fromhex('6162 09 6a 6b00')
+								Out[484]: b'ab\tjk\x00'
+
+						hex() 返回16进制表示的字符串.
+							'abc'.encode().hex()
+
+						索引: bytes是不可变的字节序列, 可以索引可迭代.
+							In [489]: b'abc'[2] # 返回该字节对应的数, int类型.
+							Out[489]: 99
+
+				bytearray()
+					bytearray定义
+						bytearray() 空bytearray
+						bytearray(int) 由int指定bytearray的长度, 补0填充
+						bytearray(iterable_of_ints) -> bytearray [0, 255]的int组成的可迭代对象
+						bytearray(string, encoding[, errors]) -> bytearray 相似于string.encode(), 返回可变对象.
+						bytearray(bytes_or_buffer) -> 从一个字节序列或buffer(bytearray)复制出一个新的可变的bytearray对象。 shadow拷贝。拷贝对象时，只是拷贝引用。
+						注意: 使用b前缀定义的是bytes类型, 没有其它方式指定bytearray.
+
+							#开空间
+							In [512]: bytearray()
+							Out[512]: bytearray(b'')
+
+							In [513]: bytearray(1)
+							Out[513]: bytearray(b'\x00')
+
+							In [514]: bytearray(2)
+							Out[514]: bytearray(b'\x00\x00')
+
+							In [515]: bytearray(range(1))
+							Out[515]: bytearray(b'\x00')
+
+							In [516]: bytearray(range(2))
+							Out[516]: bytearray(b'\x00\x01')
+
+							#复制bytearray
+							In [519]: a = bytearray('abc','utf-8')
+
+							In [520]: a
+							Out[520]: bytearray(b'abc')
+
+							In [521]: b = bytearray(a)
+
+							In [522]: id(a)
+							Out[522]: 63096992
+
+							In [523]: id(b)
+							Out[523]: 63097536
+
+							#复制bytes
+							In [526]: a
+							Out[526]: b'abc'
+
+							In [527]: bytearray(a)
+							Out[527]: bytearray(b'abc')
+
+							可以转成列表,但是内存空间 list可能比bytearray占用多
+
+					bytearray操作
+						和bytes类型方法相同
+							replace
+							split
+							find
+
+						bytearray.fromhex(string)返回bytearray
+						返回16进制字符串: bytearray('abc'.encode()).hex()
+
+						索引: bytearray(b'abcdef')[2] 返回该字节对应的数, int类型. [0, 255]
+
+					bytearray额外操作: 就地修改
+						append(int) 追加
+						insert(index, int) 在指定位置插入元素
+						extend(iterable_of_ints) 将一个可迭代序列追加	到当前bytearray
+
+						pop(index=-1) 
+
+						remove(value) 找到第一个value移除, 找不到抛出异常ValuError
+
+						注意, 上述方法若需要使用int类型时,[0, 255]
+
+						clear() 清空bytearray
+
+						reverse() 翻转bytearray, 就地修改
+
+							In [528]: b = bytearray()
+
+							In [529]: b.append(97)
+
+							In [530]: b.append(99)
+
+							In [531]: b
+							Out[531]: bytearray(b'ac')
+
+							In [532]: b.insert(1,98)
+
+							In [533]: b
+							Out[533]: bytearray(b'abc')
+
+							In [534]: b.extend([65, 66, 67])
+
+							In [535]: b
+							Out[535]: bytearray(b'abcABC')
+
+							In [536]: b.remove(66)
+
+							In [537]: b
+							Out[537]: bytearray(b'abcAC')
+
+							In [538]: b.pop()
+							Out[538]: 67
+
+							In [539]: b
+							Out[539]: bytearray(b'abcA')
+
+							In [540]: b.reverse()
+
+							In [541]: b
+							Out[541]: bytearray(b'Acba')
+
+							In [542]: b.clear()
+
+							In [543]: b
+							Out[543]: bytearray(b'')
 
 
 		2）列表: 由若干个元素(数值、字符、对象、列表)有序的组成
@@ -1259,8 +1755,136 @@ queue
 								lst[i+1] = lst[i]
 								lst[i] = tmp
 
+		线性结构(sequence)
+			for .. in
+			len() 获取长度, 是元数据.
+			通过下标可以访问, 可索引
+			可切片
+			
+			可迭代的一定可迭代,未必是线性结构.
+			线性结构一定是可迭代的.
+
+		学过的线性结构
+			list, tuple, string, bytes, bytearray
+
+		切片
+			从给定seqence, 取出片段 
+			sequece[start:stop], 表示返回[start, stop)区间的子序列
+
+				start始终在stop左边
+				    -3 -2 -1 0 1 2 3
+
+				In [553]: 'www.magedu.com'[4:10] [4,10)
+				Out[553]: 'magedu'
+
+				In [554]: 'www.magedu.com'[:10] 起始到10)
+				Out[554]: 'www.magedu'
+
+				In [555]: 'www.magedu.com'[4:] [4,结束
+				Out[555]: 'magedu.com'
+
+				In [556]: 'www.magedu.com'[:] #从头取到尾, 返回一个新的字符串, 相当浅拷贝, copy()
+				Out[556]: 'www.magedu.com' # 有返回,表示新生成的.
+
+				In [557]: 'www.magedu.com'[:-1] #不包括结束的一位.
+				Out[557]: 'www.magedu.co'
+
+				In [558]: 'www.magedu.com'[4:-4]
+				Out[558]: 'magedu'
+
+				In [558]: 'www.magedu.com'[4:4] [4,4)取不到返回空
+				Out[558]: ''
+
+				In [559]: 'www.magedu.com'[4:50]
+				Out[559]: 'magedu.com'
+
+				In [561]: b'www.magedu.com'[-40:10] #不可变bytes
+				Out[561]: b'www.magedu'
+
+				In [562]: bytearray(b'www.magedu.com')[-4:10] #start落在stop右边, 匹配不到返回空, 复制bytes为bytearray.
+				Out[562]: bytearray(b'')
+
+				In [564]: tuple('www.magedu.com')[-10:10]
+				Out[564]: ('m', 'a', 'g', 'e', 'd', 'u')
+
+				In [565]: list('www.magedu.com')[-10:-4]
+				Out[565]: ['m', 'a', 'g', 'e', 'd', 'u']
+
+			步长切片
+				[start:stop:step]
+					step: 步长, 分正负. 默认是1.
+						1: ----> 正向坐标系, 取的字符串,  是正方向.
+						-1: <--- 反向坐标系, 取的字符串, 是反方向.
+
+					step要和start:stop同向, 否则返回空序列. 
+ 					
+				 In [565]: list('www.magedu.com')[-10:-4]
+				Out[565]: ['m', 'a', 'g', 'e', 'd', 'u']
+
+				In [566]:
+
+				In [566]: list('www.magedu.com')[-10:-4:1]
+				Out[566]: ['m', 'a', 'g', 'e', 'd', 'u']
+
+				In [567]: list('www.magedu.com')[-10:-4:-1]
+				Out[567]: []
+
+				In [568]: list('www.magedu.com')[-4:-10]
+				Out[568]: []
+
+				In [569]: list('www.magedu.com')[-4:-10:-1] #反向
+				Out[569]: ['.', 'u', 'd', 'e', 'g', 'a']
+		
 	三、键值对
-		集合: set （老师叫集）
+		集合: 
+			约定
+				set 翻译为集合（老师叫集）
+				collection翻译为集合类型，是一个大概念
+
+			set
+				在内存中是散放着
+				可变的、无序的、不重复的元素的集合
+					可变: bytearray, list
+					无序：认识是无序的，不可索引，其实是有序的。可以迭代。
+					不重复：集合最大用处，去重
+			set定义，初始化
+				set()
+				set(iterable)
+
+				s = set()
+				s = set(range(5))
+				s = set(list(range(10)))
+				s = set(tuple(range(10)))
+				s = set(enumerate(range(10)))
+				s = {} #dict, 空的，留给字典。没有元素只能 set()
+				s = {1} #set
+				s = {9,10,11} #set
+				s = {(1,2),3,'a',None,b'abc'} 
+				s = {[1],(1,),1} #注意其中不能放list, 不可hash类型。不可变类型才可hash. 可变的[1], bytearray(b'a')不能作为元素。
+
+			set接的iterable中的元素
+				必须可以hash, hash()测试
+
+					hash([1])
+					hash('abc')
+					hash(b'abc')
+				s = {['abc',b'abc']}
+				s = set(s)
+				s = set(list(s))
+				目前学过的不可hash类型有list, bytearray(b'xxx')
+
+				无序，不可以索引
+				set可以迭代
+
+			se增加
+				add('elem')
+					增加一个元素到set中
+					s.add(1)
+					s.add(2)
+				update(*others)
+
+					s.update([1,3,2])
+					s.update([1,3,2],{2,3,4})	#合并多个集合到
 		字典: dict
 
 

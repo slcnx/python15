@@ -1,0 +1,91 @@
+代码测试：ipython
+代码长了: jupyter
+
+
+获取帮助: 
+?
+	ipython概述和简介
+
+	  ?            -> Introduction and overview of IPython's features (this screen).
+	  object?      -> 由ipython提供的帮助
+	  object??     -> 比object更详细
+	  %quickref    -> 快速手册
+	  help(name)   -> ptyhon自己的帮助系统. help()
+
+
+		In [617]: a = 1
+
+		In [618]: a?
+		Type:        int
+		String form: 1
+		Docstring:
+		int(x=0) -> integer
+		int(x, base=10) -> integer
+
+		In [621]: abs? #绝对值
+		Signature: abs(x, /)
+		Docstring: Return the absolute value of the argument.
+		Type:      builtin_function_or_method
+
+		In [622]: abs??
+		Signature: abs(x, /)
+		Docstring: Return the absolute value of the argument.
+		Type:      builtin_function_or_method
+
+
+特殊变量
+
+	_ 前一次输出
+	_dh 工作目录
+	_oh 输出历史
+
+	In [5]: c = 3
+
+	In [6]: c
+	Out[6]: 3
+
+	In [7]: _
+	Out[7]: 3
+
+	In [10]: for _ in range(10):
+	    ...:     pass
+	    ...:
+	    ...:
+
+shell命令
+	!command执行shell命令
+		files=!ls -l 将输出结果，塞入列表。
+
+		In [2]: files = !ls -l
+
+		In [3]: type(files)
+		Out[3]: IPython.utils.text.SList #只要有list就可以迭代
+
+魔术方法
+	%magic开头，行魔术方法，内置特殊方法
+	%%， cell中的方法
+
+	%alias定义系统命令的别名
+		alias cls clear
+
+	%timeit statement
+		-n 一个循环(loop) 内执行语句多次
+		-r 循环执行多少轮loop, 取最好的结果
+
+	%%timeit setup_code 
+		code...
+
+		setup: 只执行一次，初始化
+
+	%cd 改变当前目录
+		cd?? 查看cd源码, 是os的cd
+		pwd?? 调用os.getcwd(), 不关心os, 由os统一调用getcwd() 
+		注意:%pwd是魔术方法,是Ipython内部实现,与操作系统无关, 而!pwd依赖于当前操作系统的shell提供的命令执行, 默认windows不支持pwd命令.
+
+		!cmd, 优先当前os命令
+		%cmd, 由python的库来完成
+		
+	%%js、%%javascript在cell中运行js脚本
+
+
+

@@ -1,0 +1,14 @@
+随机数
+	[1-20]
+
+	import random
+	random.randint(0,1)
+	random.randrange(0,1)
+
+
+	追加和开空间
+		大数据集，开空间有效率
+
+	
+	记状态：位图
+	求次数：开空间

@@ -1,0 +1,322 @@
+封装
+	返回一个元组
+		把一些数用逗号分割，组装在一起。
+		partition()
+		split()
+
+	python特有语法，很多语言学习和借鉴
+		In [1]: a = 1, 2 #使用元组，右边不变。且元组比列表更简单。占用内存比列表更小。
+
+		In [2]: type(a)
+		Out[2]: tuple
+
+		In [3]: a?
+		Type:        tuple
+		String form: (1, 2)
+		Length:      2
+		Docstring:
+		tuple() -> empty tuple
+		tuple(iterable) -> tuple initialized from iterable's items
+
+		If the argument is a tuple, the return value is the same object.
+
+		In [7]: t1 = (1, 2) #定义为元组
+
+		In [8]: t2 = 1, 2   #将1和2封装成元组
+
+		In [9]: type(t1)
+		Out[9]: tuple
+
+		In [10]: type(t2)
+		Out[10]: tuple
+
+
+	示例
+		In [11]: a = 4
+
+		In [12]: b = 5
+
+		In [13]: tmp = a
+
+		In [14]: a = b
+
+		In [15]: b = tmp
+
+		In [16]: a
+		Out[16]: 5
+
+		In [17]: b
+		Out[17]: 4
+
+		相当于
+		In [18]: a, b = b, a
+			1、将b,a封装成(b,a)
+			2、将(b,a)拆封为a, b
+
+		In [19]: a
+		Out[19]: 4
+
+		In [20]: b
+		Out[20]: 5
+
+
+		解构
+			左边有多个变量时，把右边的线性结构的元素解开，并顺序的赋给左边的变量
+			左右数目一致，否则返回ValueError异常
+
+			In [21]: c = a, b
+
+			In [22]: c
+			Out[22]: (4, 5)
+
+			In [23]: b, a = c
+
+			In [24]: b
+			Out[24]: 4
+
+			In [25]: a
+			Out[25]: 5
+
+			In [26]: (b, a) = a, b
+
+			In [27]: a
+			Out[27]: 4
+
+			In [28]: b
+			Out[28]: 5
+
+			In [29]: (b, a) = a, b, 1
+			---------------------------------------------------------------------------
+			ValueError                                Traceback (most recent call last)
+			<ipython-input-29-588dcf797fe6> in <module>()
+			----> 1 (b, a) = a, b, 1
+
+			ValueError: too many values to unpack (expected 2)
+
+			示例
+
+				In [30]: a, b = 1, 2 #先封装后解构
+
+				In [31]: a, b = (1, 2) #线性结构的解构, 直接解构
+
+				In [32]: a, b = [1, 2] #线性结构的解构, 直接解构
+
+				In [33]: a, b = {14, 15}	      #非线性结构的解构, 直接解构
+
+				In [36]: a, b = {'a': 1, 'b': 2}  #非线性结构的解构, 直接解构, 字典返回key
+
+				In [37]: a
+				Out[37]: 'a'
+
+				In [38]: b
+				Out[38]: 'b'
+
+				#*表示无限多个, 重复元素. 解构用的. 匹配任意多个后面的元素
+				In [39]: a, *b = 1, 2, 3, 34   #解构时,优先列表, 不知道有多少个, 一个一个加入列表.
+
+				In [40]: a
+				Out[40]: 1
+
+				In [41]: b
+				Out[41]: [2, 3, 34]
+
+				#左边不管结构,右边不管结构, 只要元素数目一致. 忽略结构
+				In [42]: [a, b] = (1, 2)
+
+				In [43]: a
+				Out[43]: 1
+
+				In [44]: b
+				Out[44]: 2
+
+				In [45]: (a,b) = 1,2
+
+				In [46]: a
+				Out[46]: 1
+
+				In [47]: b
+				Out[47]: 2
+
+				In [51]: (a,b) = {30, 40}
+
+				In [52]: a
+				Out[52]: 40
+
+				In [53]: b
+				Out[53]: 30
+
+				In [54]: _
+				Out[54]: 30
+
+		python3的解构, python2不行
+			使用 *变量名 接收后面的变量, 但不能单独使用
+			被 *变量名 收集后组成一个列表
+
+			举例
+				#单独使用, 就直接 d = 1,2, 3, 4. 所以会报错
+				In [56]: *d = 1,2, 3, 4
+				  File "<ipython-input-56-4477ecc19da8>", line 1
+				    *d = 1,2, 3, 4
+				                  ^
+				SyntaxError: starred assignment target must be in a list or tuple
+
+
+				In [57]: a, b, c, *d = 1, 2, 3, 4
+
+				In [58]: d
+				Out[58]: [4]
+
+				#*尽可能的收集更多的元素
+				In [59]: *d, e  = 1, 2, 3, 4
+
+				In [60]: d
+				Out[60]: [1, 2, 3]
+
+				In [61]: e
+				Out[61]: 4
+
+
+				# *不能出现超过1次; 怎么区分到底给谁多谁少
+				In [67]: lst = list(range(1, 101, 2))
+
+				In [68]: head, *m1, *m2, tail = lst
+				  File "<ipython-input-68-310992efb43d>", line 1
+				    head, *m1, *m2, tail = lst
+				                              ^
+				SyntaxError: two starred expressions in assignment
+
+				# 右侧序列也行
+				In [69]: head, *mid, tail = "abcdefghijklmn"
+
+				In [70]: head
+				Out[70]: 'a'
+
+				In [71]: mid
+				Out[71]: ['b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm']
+
+				In [72]: tail
+				Out[72]: 'n'
+
+		丢弃变量
+			标识符: 非数字开头的由字母、数字、_组成
+			不关心变量_
+			_是有效变量，但不要使用_。多下划线例外
+
+			In [73]: lst = list(range(1, 101, 2))
+
+			In [74]: head, *_, tail = lst #下划线，是合法变量，可以使用。
+
+			In [76]: head,tail
+			Out[76]: (1, 99)
+
+			In [77]: _
+			Out[77]:
+
+			举例
+				In [78]: lst = [9, 8,7,20]
+
+				In [79]: first, *second = lst
+
+				In [80]: first,second #封装
+				Out[80]: (9, [8, 7, 20])
+
+				In [81]: _, *_, tail = lst #前面是9， 后面是[8, 7]，后面的_会覆盖前面的_.
+
+				In [82]: _ #后面的_已经覆盖了前面的_.
+				Out[82]: [8, 7]
+
+				In [83]: _
+				Out[83]: [8, 7]
+
+				In [84]: tail
+				Out[84]: 20
+
+		总结：
+			_没有任何字母，没有意义，没有可读性。别用
+			在局部作用域中才使用它。python其它库的作用域也是在它的名词空间中。
+
+		练习
+			lst = list(range(10)) 取第二个，第4个，倒数第2个。
+
+			In [85]: lst = list(range(10))
+
+			#左边有4个变量，则是解构
+			In [86]: _,a,_,b,*_,c,_ = lst
+
+			In [87]: a
+			Out[87]: 1
+
+			In [88]: b
+			Out[88]: 3
+
+			In [89]: c
+			Out[89]: 8
+
+			In [90]: lst
+			Out[90]: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+		练习 
+			从lst = [1,(2,3,4),5]中，提取4出来。
+				In [96]: lst
+				Out[96]: [1, (2, 3, 4), 5]
+
+				In [97]: _,(*_, a),_ = lst
+
+				In [98]: a
+				Out[98]: 4
+			环境变量JAVA_HOME=/usr/bin，返回变量名和路径
+				s = 'JAVA_HOME=/usr/bin'
+				var,*_,path = s.split("=")
+				print(var)
+				print(path)
+
+				s = 'JAVA_HOME=/usr/bin'
+				var,_,path = s.partition("=")
+				print(var)
+				print(path)
+			对列表[1,9,8,5,6,7,4,3,2]使用冒泡排序，要求使用封装和解构来交互数据。
+				lst = [1,9,8,5,6,7,4,3,2]
+
+				for i in range(len(lst)-1):
+					flag = True
+				    for j in range(len(lst)-i-1):
+				        if lst[j] > lst[j+1]:
+				            lst[j+1], lst[j] = lst[j], lst[j+1]
+				    		flag = False
+				    if flag:
+				    	break
+				print(lst)
+
+		总结：
+			解构，提取复杂数据结构的值
+			配置_的使用，会更加便利
+
+
+
+	连元素带索引一起使用
+		enumerate() 返回二元组，索引和元素
+			In [1]: enumerate('abcdefg')
+			Out[1]: <enumerate at 0x364fd78>
+
+			In [2]: list(enumerate('abcdefg'))
+			Out[2]: [(0, 'a'), (1, 'b'), (2, 'c'), (3, 'd'), (4, 'e'), (5, 'f'), (6, 'g')]
+
+
+		lst = [[1,2,3],[4,5,6],[7,8,9]]
+		count = 0
+		for i in range(1,len(lst)):
+		    for j in range(i):
+		        lst[i][j], lst[j][i] = lst[j][i], lst[i][j]
+		        count += 1
+		print(lst)
+		print(count)
+
+
+		lst =  [[1,2,3],[4,5,6],[7,8,9]]
+		for i, row in enumerate(lst):
+		    for j, col in enumerate(row):
+		        """只使用索引"""
+		        if i > j:
+		            lst[i][j], lst[j][i] = lst[j][i], lst[i][j]
+		            
+		print(lst)

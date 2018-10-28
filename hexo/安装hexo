@@ -123,3 +123,12 @@ search:
 
 10、RSS
 npm install hexo-generator-feed --save
+
+
+11、新环境，
+	克隆上传的代码
+	git clone https://github.com/iissnan/hexo-theme-next themes/hexo-theme-next
+	cp next_config/_config.yml themes/hexo-theme-next/
+	测试
+	hexo s
+	
