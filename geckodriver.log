@@ -1,0 +1,33 @@
+1540790251738	geckodriver	INFO	geckodriver 0.21.0
+1540790251745	geckodriver	INFO	Listening on 127.0.0.1:12411
+1540790254767	mozrunner::runner	INFO	Running command: "D:\\bin\\Mozilla Firefox\\firefox.exe" "-marionette" "-foreground" "-no-remote" "-profile" "C:\\Users\\ADMINI~1\\AppData\\Local\\Temp\\rust_mozprofile.jWF5nphi42Bj"
+1540790257429	Marionette	INFO	Listening on port 12420
+1540790257491	Marionette	WARN	TLS certificate errors will be ignored for this session
+1540790257514	Marionette	DEBUG	[6442450945] Frame script loaded
+1540790257518	Marionette	DEBUG	[6442450945] Frame script registered
+1540790257529	Marionette	DEBUG	[6442450945] Received DOM event beforeunload for about:blank
+1540790259197	Marionette	DEBUG	[6442450945] Received DOM event pagehide for about:blank
+1540790259214	Marionette	DEBUG	[6442450945] Received DOM event beforeunload for http://91.215.159.230:8180/cms/loginout.jsp;jsessionid=147166AF8141E34DC7992F761336A23C
+1540790259217	Marionette	DEBUG	[6442450945] Received DOM event pageshow for http://91.215.159.230:8180/cms/loginout.jsp;jsessionid=147166AF8141E34DC7992F761336A23C
+1540790259260	Marionette	DEBUG	[6442450945] Received DOM event DOMContentLoaded for http://91.215.159.230:8180/cms/loginout.jsp;jsessionid=147166AF8141E34DC7992F761336A23C
+1540790259833	Marionette	DEBUG	[6442450945] Received DOM event unload for http://91.215.159.230:8180/cms/loginout.jsp;jsessionid=147166AF8141E34DC7992F761336A23C
+1540790262795	Marionette	DEBUG	[6442450945] Received DOM event DOMContentLoaded for http://91.215.159.230:8180/cms/goLogin.action
+1540790273105	Marionette	DEBUG	[6442450945] Received DOM event pageshow for http://91.215.159.230:8180/cms/goLogin.action
+1540790273190	Marionette	DEBUG	[6442450945] Received DOM event beforeunload for http://91.215.159.230:8180/cms/goLogin.action
+1540790273586	Marionette	DEBUG	[6442450945] Received DOM event pagehide for http://91.215.159.230:8180/cms/goLogin.action
+1540790273586	Marionette	DEBUG	[6442450945] Received DOM event unload for http://91.215.159.230:8180/cms/goLogin.action
+1540790273917	Marionette	DEBUG	[6442450945] Received DOM event DOMContentLoaded for http://91.215.159.230:8180/cms/login.action
+1540790274282	Marionette	DEBUG	[6442450945] Received DOM event pageshow for http://91.215.159.230:8180/cms/login.action
+1540790277303	Marionette	DEBUG	[6442450945] Received DOM event beforeunload for http://91.215.159.230:8180/cms/login.action
+1540790277703	Marionette	DEBUG	[6442450945] Received DOM event pagehide for http://91.215.159.230:8180/cms/login.action
+1540790277704	Marionette	DEBUG	[6442450945] Received DOM event unload for http://91.215.159.230:8180/cms/login.action
+JavaScript warning: http://91.215.159.230:8180/cms/easyui/jquery.easyui.min.js, line 7935: unreachable code after return statement
+1540790286802	Marionette	DEBUG	[6442450945] Received DOM event DOMContentLoaded for http://91.215.159.230:8180/cms/sm.action
+1540790289527	Marionette	DEBUG	[6442450945] Received DOM event pageshow for http://91.215.159.230:8180/cms/sm.action
+1540790289762	Marionette	DEBUG	[6442450945] Canceled page load listener because no navigation has been detected
+[Parent 50068, Gecko_IOThread] WARNING: pipe error: 109: file z:/build/build/src/ipc/chromium/src/chrome/common/ipc_channel_win.cc, line 346
+[Child 38536, Chrome_ChildThread] WARNING: pipe error: 109: file z:/build/build/src/ipc/chromium/src/chrome/common/ipc_channel_win.cc, line 346
+[Child 38536, Chrome_ChildThread] WARNING: pipe error: 109: file z:/build/build/src/ipc/chromium/src/chrome/common/ipc_channel_win.cc, line 346
+[Child 42076, Chrome_ChildThread] WARNING: pipe error: 109: file z:/build/build/src/ipc/chromium/src/chrome/common/ipc_channel_win.cc, line 346
+[Child 42076, Chrome_ChildThread] WARNING: pipe error: 109: file z:/build/build/src/ipc/chromium/src/chrome/common/ipc_channel_win.cc, line 346
+1540790779234	Marionette	INFO	Stopped listening on port 12420

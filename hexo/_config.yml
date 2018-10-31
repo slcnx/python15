@@ -13,7 +13,7 @@ timezone:
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: https://liangcheng.github.io
+url: http://lol.mykernel.cn/
 root: /
 permalink: :year/:month/:day/:title/
 permalink_defaults:
@@ -80,7 +80,7 @@ theme: hexo-theme-next
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git
-  repo: https://github.com/slcnx/liangcheng.github.io.git
+  repo: root@120.77.47.77:/opt/blog.git
   branch: master
   message: 
 
@@ -92,3 +92,7 @@ feed:
   hub:
 # 是否包含文章内容
   content: true
+
+search:
+  path: search.xml
+  field: post
