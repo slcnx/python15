@@ -1,6 +1,6 @@
 
 
 if __name__ == '__main__':
-    print('welcome magedu')
+    print('welcome magedu.com')
 
 

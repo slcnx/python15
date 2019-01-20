@@ -1,5 +1,5 @@
 class Dispatcher:
-    cmds = []
+    cmds = {}
     def reg(self, cmd, fn):
         pass
 
